@@ -12,29 +12,6 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <style>
-            .site-footer {
-                background: #fff; /* dark gray */
-                color: #000; /* light gray text */
-                text-align: center;
-                padding-top: 50px;
-                margin-top: auto; /* pushes footer to bottom */
-                border-top: 1px solid #e5e7eb; /* subtle top border */
-            }
-
-            .footer-container {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 16px;
-                font-size: 14px;
-            }
-
-            /* Responsive tweak */
-            @media (max-width: 640px) {
-                .footer-container {
-                    font-size: 13px;
-                    padding: 8px 12px;
-                }
-            }
             .hover-shadow {
                 transition: all 0.3s ease-in-out;
             }
@@ -55,21 +32,22 @@
                 align-items: center;
                 justify-content: center;
             }
-            
-            .location-wrapper {
+
+            /** New code */
+            .dropdown-search-wrapper {
                 position: relative;
                 display: flex;
                 align-items: center;
                 width: 100%; /* make it flexible */
                 max-width: 300px; /* match your category select width */
             }
-            .location-input::placeholder {
+            .dropdown-search::placeholder {
                 color: #999; /* Gray placeholder text */
                 opacity: 1;
                 font-size: 16px;
                 font-size: bold;
             }
-            .location-input {
+            .dropdown-search {
                 width: 100%;
                 padding: 10px 12px 10px 0;
                 border: none;
@@ -79,15 +57,7 @@
                 outline: none;
                 font-size: 14px;
             }
-            .location-wrapper img {
-                position: absolute;
-                left: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 18px;
-                opacity: 0.6;
-            }
-            .location-input {
+            .dropdown-search {
                 background-color: #fff;
                 border-radius: 8px;
             }
@@ -114,6 +84,7 @@
             .suggestion-item:hover {
                 background-color: #f8f9ff;
             }
+            /** New code */
         </style>
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     </head>
@@ -141,8 +112,8 @@
         </div>
 
 
-        <div class="recruiter_wrapper" style="padding-bottom: 50px;">
-            <div class="container mx-auto" style="margin-bottom: 50px;">
+        <div class="recruiter_wrapper">
+            <div class="container mx-auto">
                 <!-- Header -->
                 <div class="filter_wrapper">
                     <div class="text-center mb-5">
@@ -151,8 +122,7 @@
                     </div>
 
                     <div class="filter_form_wrapper">
-                        <form method="GET" action="{{ route('recruiters.index') }}"
-                            class="form_wrapper">
+                        <form method="GET" action="{{ route('recruiters.index') }}" class="form_wrapper">
                             
                             <img src="{{ asset('img/map-pin.svg') }}" alt="Location Icon" class="w-4 h-4 text-gray-400 mr-2">
                             <!--
@@ -165,13 +135,16 @@
                                 @endforeach
                             </select>
                             -->
-                            <div class="location-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">
-                                <input type="text" id="locationInput" class="form-control location-input" name="" placeholder="Search location..." autocomplete="off">
-                                <input type="hidden" name="state_city_id" id="stateCityIdInput" value="">
-                                <div id="suggestions" class="suggestions-box" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; border: 1px solid #ccc;"></div>
+                            <div class="dropdown-search-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">
+                                <input type="text" id="stateCityInput" class="form-control dropdown-search" name="" placeholder="Search location..." autocomplete="off">
+                                <input type="hidden" name="state_city" id="stateCityIdInput" value="">
+                                <div id="stateCitySuggestionBox" class="suggestions-box" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; border: 1px solid #ccc;"></div>
                             </div>
+                            <!-- New code -->
+
                             <span class="divider-line">|</span>
-                            <img src="{{ asset('img/map-pin.svg') }}" alt="Location Icon" class="w-4 h-4 text-gray-400 mr-2">
+                            <img src="{{ asset('img/categorization.png') }}" alt="Location Icon" class="w-4 h-4 text-gray-400 mr-2">
+                            <!--
                             <select name="category_id" class="form-select category_select select2" style="width: 180px;">
                                 <option value="">All Categories</option>
                                 @foreach ($categories as $cat)
@@ -180,6 +153,12 @@
                                     </option>
                                 @endforeach
                             </select>
+                            -->
+                            <div class="dropdown-search-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">
+                                <input type="text" id="categoryInput" class="form-control dropdown-search" name="" placeholder="Category location..." autocomplete="off">
+                                <input type="hidden" name="category" id="categoryIdInput" value="">
+                                <div id="categorySuggestionBox" class="suggestions-box" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; border: 1px solid #ccc;"></div>
+                            </div>
         
                             {{-- <input type="text" name="name" placeholder="Search by Name"
                                 value="{{ request('name') }}" class="form-control" style="width: 160px;"> --}}
@@ -268,12 +247,12 @@
                                 <p class="text-sm text-gray-400 mb-3">{{ $recruiter->category?->name ?? 'N/A' }}</p>
 
                                 <!-- Rating -->
-                                {{-- <div class="flex justify-center items-center text-yellow-400 mb-2">
+                                <div class="flex justify-center items-center text-yellow-400 mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5 mr-1">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.26 3.89a1 1 0 00.95.69h4.1c.969 0 1.371 1.24.588 1.81l-3.32 2.41a1 1 0 00-.364 1.118l1.26 3.89c.3.921-.755 1.688-1.54 1.118l-3.32-2.41a1 1 0 00-1.176 0l-3.32 2.41c-.785.57-1.84-.197-1.54-1.118l1.26-3.89a1 1 0 00-.364-1.118l-3.32-2.41c-.783-.57-.38-1.81.588-1.81h4.1a1 1 0 00.95-.69l1.26-3.89z"/>
                                     </svg>
                                     <span>{{ number_format($recruiter->rating, 1) }}</span>
-                                </div> --}}
+                                </div>
 
                                 <!-- Jobs -->
                                 {{-- <span class="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded">
@@ -289,11 +268,11 @@
             {{ $recruiters->appends(request()->query())->links('vendor.pagination.custom-tailwind') }}
 
 
-{{-- 
+            {{--
             <div class="mt-8 flex justify-left">
                 {{ $recruiters->appends(request()->query())->links('pagination::tailwind') }}
-            </div> --}}
-
+            </div>
+            --}}
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -361,44 +340,57 @@
                     }
                 });
             });
-            
-            const locations = @json($locationOptions);
 
-            const input = document.getElementById("locationInput");
-            const hiddenInput = document.getElementById("stateCityIdInput");
-            const suggestionBox = document.getElementById("suggestions");
+            /** New code */
+            const locationOptions = @json($locationOptions);
+            const categoryOptions = @json($categoryOptions);
+
+            const stateCityInput = document.getElementById("stateCityInput");
+            const stateCityIdInput = document.getElementById("stateCityIdInput");
+            const stateCitySuggestionBox = document.getElementById("stateCitySuggestionBox");
             
+            const categoryInput = document.getElementById("categoryInput");
+            const categoryIdInput = document.getElementById("categoryIdInput");
+            const categorySuggestionBox = document.getElementById("categorySuggestionBox");
+            
+
             // Function to set input from URL parameter
             function setLocationFromUrl() {
                 const params = new URLSearchParams(window.location.search);
-                const stateCityId = params.get('state_city_id'); // e.g., "43,230"
+                const stateCityId = params.get('state_city'); // e.g., "43,230"
+                const categoryId = params.get('category'); // e.g., "5"
 
-                if (stateCityId && locations[stateCityId]) {
-                    input.value = locations[stateCityId];  // display name
-                    hiddenInput.value = stateCityId;       // hidden ID
+                if (stateCityId && locationOptions[stateCityId]) {
+                    stateCityInput.value = locationOptions[stateCityId];
+                    stateCityIdInput.value = stateCityId;
+                }
+
+                if (categoryId && categoryOptions[categoryId]) {
+                    categoryInput.value = categoryOptions[categoryId];
+                    categoryIdInput.value = categoryId;
                 }
             }
 
             // Call on page load
             setLocationFromUrl();
 
-            input.addEventListener("input", function() {
+            stateCityInput.addEventListener("input", function() {
                 const query = this.value.toLowerCase();
-                suggestionBox.innerHTML = "";
-                hiddenInput.value = "";
+                stateCitySuggestionBox.innerHTML = "";
+                stateCityIdInput.value = "";
 
                 if (!query) {
-                    suggestionBox.style.display = "none";
+                    stateCitySuggestionBox.style.display = "none";
                     return;
                 }
 
                 // Filter by value (City, State)
-                const filtered = Object.entries(locations).filter(([key, value]) =>
+                const filtered = Object.entries(locationOptions).filter(([key, value]) =>
                     value.toLowerCase().includes(query)
                 );
 
                 if (filtered.length === 0) {
-                    suggestionBox.style.display = "none";
+                    stateCitySuggestionBox.style.display = "none";
                     return;
                 }
 
@@ -408,30 +400,60 @@
                     div.textContent = value;
                     div.style.cursor = "pointer";
                     div.onclick = function() {
-                        input.value = value;
-                        hiddenInput.value = key; // store the city/state ID in hidden input
-                        suggestionBox.style.display = "none";
+                        stateCityInput.value = value;
+                        stateCityIdInput.value = key; // store the city/state ID in hidden input
+                        stateCitySuggestionBox.style.display = "none";
                     };
-                    suggestionBox.appendChild(div);
+                    stateCitySuggestionBox.appendChild(div);
                 });
 
-                suggestionBox.style.display = "block";
+                stateCitySuggestionBox.style.display = "block";
+            });
+
+            categoryInput.addEventListener("input", function() {
+                const query = this.value.toLowerCase();
+                categorySuggestionBox.innerHTML = "";
+                categoryIdInput.value = "";
+
+                if (!query) {
+                    categorySuggestionBox.style.display = "none";
+                    return;
+                }
+
+                // Filter by value (City, State)
+                const filtered = Object.entries(categoryOptions).filter(([key, value]) =>
+                    value.toLowerCase().includes(query)
+                );
+
+                if (filtered.length === 0) {
+                    categorySuggestionBox.style.display = "none";
+                    return;
+                }
+
+                filtered.forEach(([key, value]) => {
+                    const div = document.createElement("div");
+                    div.classList.add("suggestion-item");
+                    div.textContent = value;
+                    div.style.cursor = "pointer";
+                    div.onclick = function() {
+                        categoryInput.value = value;
+                        categoryIdInput.value = key; // store the city/state ID in hidden input
+                        categorySuggestionBox.style.display = "none";
+                    };
+                    categorySuggestionBox.appendChild(div);
+                });
+
+                categorySuggestionBox.style.display = "block";
             });
 
             // Hide suggestions on outside click
             document.addEventListener("click", (e) => {
-                if (!document.querySelector(".location-wrapper").contains(e.target)) {
-                    suggestionBox.style.display = "none";
+                if (!document.querySelector(".dropdown-search-wrapper").contains(e.target)) {
+                    stateCitySuggestionBox.style.display = "none";
+                    categorySuggestionBox.style.display = "none";
                 }
             });
+            /** New code */
         </script>
-
-        <footer class="site-footer flex item-start">
-            <div class="footer-container">
-                <p>Copyright © {{ date('Y') }}. Ocrecruiters — All rights reserved.</p>
-            </div>
-        </footer>
-
-
     </body>
 </html>

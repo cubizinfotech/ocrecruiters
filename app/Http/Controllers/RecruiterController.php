@@ -24,18 +24,18 @@ class RecruiterController extends Controller
         }
 
         // Filter by category
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
         }
 
         // Filter by location
         if ($request->filled('location_id')) {
             $query->where('location_id', $request->location_id);
         }
-        
+
         // Filter by state and city
-        if ($request->filled('state_city_id')) {
-            $ids = explode(',', $request->state_city_id);
+        if ($request->filled('state_city')) {
+            $ids = explode(',', $request->state_city);
             if (count($ids) == 2) {
                 $query->where('state_id', $ids[0])->where('city_id', $ids[1]);
             } else {
@@ -72,10 +72,18 @@ class RecruiterController extends Controller
         $recruiters = $query->paginate($perPage);
         //$recruiters = $query->paginate(6)->appends($request->query());
 
+        // $sql = $query->toSql();
+        // dd($sql);
+
         // Master dropdowns
         $categories = Category::orderBy('name')->get();
         $locations = Location::orderBy('name')->get();
         $cities = City::with('state')->orderBy('name')->get();
+
+        $categoryOptions = [];
+        foreach ($categories as $category) {
+            $categoryOptions[$category->id] = $category->name;
+        }
 
         $locationOptions = [];
         foreach ($cities as $city) {
@@ -91,7 +99,7 @@ class RecruiterController extends Controller
         // Count total
         $total = $recruiters->total();
 
-        return view('welcome', compact('recruiters', 'categories', 'locations', 'total', 'locationOptions'));
+        return view('welcome', compact('recruiters', 'categories', 'locations', 'total', 'locationOptions', 'categoryOptions'));
     }
 
     public function show($id, Request $request)
