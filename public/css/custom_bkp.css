@@ -1,0 +1,170 @@
+body{
+    overflow-x: hidden;
+}
+.container{
+    margin: 0 auto;
+    max-width: 1350px;
+    padding: 0 15px;
+}
+.header_wrapper{
+    padding: 30px 0;
+}
+.btn_primary {
+    background: #3c65f5;
+    color: #fff;
+    padding: 12px 25px;
+    display: inline-block;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 400;
+}
+.btn_group_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.btn_transparent:hover{
+    color:#3c65f5;
+}
+.filter_wrapper {
+    background: #f2f6fd;
+    padding: 40px 20px 60px 20px;
+    border-radius: 16px;
+    position: relative;
+    margin: 0 0 50px;
+}
+.filter_wrapper h1{
+        font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.25;
+    color: #05264E;
+    margin: 0 0 10px;
+}
+.filter_wrapper p{
+    font-size: 14px;
+    color: #66789C;
+}
+.filter_form_wrapper {
+    background: #ffffff;
+    box-shadow: 0px 18px 40px rgba(25, 15, 9, 0.1);
+    border-radius: 8px;
+    padding: 10px 10px;
+    max-width: 680px;
+    margin: 0 auto;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+}
+.filter_form_wrapper form{
+    align-items: center;
+    display:flex;
+}
+.filter_form_wrapper .select2 {
+        width: 100% !important;
+}
+
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    text-align: left;
+}
+.filter_form_wrapper .btn_primary{
+    margin-left: 20px;
+}
+.select2-container--open .select2-dropdown--below, .select2-container--open .select2-dropdown--above {
+    border: thin solid #ececec;
+    padding: 15px;
+    margin-top: 25px;
+    border-radius: 4px;
+    min-width: 200px;
+    z-index: 30;
+}
+.select2-container--open .select2-dropdown--below {
+    border-top: 1px solid #7e8993;
+    top: -1px;
+}
+.select2-search.select2-search--dropdown {
+    padding: 0;
+    margin-bottom: 10px;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: thin solid var(--jobbox-border-color);
+    border-radius: 4px;
+    height: 40px;
+    padding-left: 15px;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #aaa;
+}
+
+.select2-container--default .select2-results>.select2-results__options {
+    max-height: 200px;
+    overflow-y: auto;
+}
+.select2-results__option {
+    padding: 6px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.select2-results__option {
+    margin-bottom: 0;
+}
+.recruiter_list_wrap{
+    padding: 20px 0 40px;
+}
+.recruiter_wrapper{
+    padding: 0 0 80px;
+}
+.recruiter_box {
+    position: relative;
+    border-radius: 10px;
+    border: 0.88px solid #e0e6f7;
+    overflow: hidden;
+    position: relative;
+    background: #F8FAFF;
+    text-align: center;
+    padding: 30px;
+}
+
+@media (max-width: 575px){
+    .filter_form_wrapper form {;
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    .filter_form_wrapper .btn_primary {
+    margin-left: revert-layer;
+}
+.filter_form_wrapper {
+    padding: 20px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect all requests to /public
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+# Block sensitive files
+<FilesMatch "\.(env|json|lock|log|sql|conf|env\.example|gitignore|htaccess|yaml|yml|xml|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
