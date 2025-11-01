@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class RegisteredUserController extends Controller
 {
@@ -41,17 +42,21 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
-
-        // Create recruiter role if it doesn't exist, then assign it
+        // Assign recruiter role
         $recruiterRole = Role::firstOrCreate([
             'name' => 'recruiter',
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
-
         $user->assignRole($recruiterRole);
 
-        // Redirect to login page with success message
-        return redirect()->route('login')->with('success', 'Registration successful! Please login with your credentials.');
+        // Fire Registered event (triggers email verification notification)
+        event(new Registered($user));
+
+        // ✅ Log the user in right away
+        Auth::login($user);
+
+        // ✅ Redirect to verify email notice page
+        return redirect()->route('verification.notice')
+            ->with('status', 'Registration successful! Please verify your email address.');
     }
 }

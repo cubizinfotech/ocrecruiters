@@ -27,6 +27,20 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $user = Auth::user();
+
+        // Check if the user's email is verified
+        if (!$user->hasVerifiedEmail()) {
+            Auth::logout();
+
+            // Send email verification notification
+            $user->sendEmailVerificationNotification();
+
+            return redirect()->back()->withErrors([
+                'email' => 'Your email is not verified. Please check your inbox for verification link.',
+            ]);
+        }
+
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);

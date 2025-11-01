@@ -3,26 +3,45 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
 
 class VerifyEmailController extends Controller
 {
-    /**
-     * Mark the authenticated user's email address as verified.
-     */
-    public function __invoke(EmailVerificationRequest $request): RedirectResponse
+    public function __invoke(Request $request, $id, $hash): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        // Find the user from the ID in the URL
+        $user = User::findOrFail($id);
+
+        // Validate the signed link
+        if (! URL::hasValidSignature($request)) {
+            abort(403, 'Invalid or expired verification link.');
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
+        // Ensure hash matches the user's email
+        if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+            abort(403, 'Invalid verification hash.');
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+        // If already verified, just redirect
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
+        }
+
+        // Mark the user’s email as verified
+        $user->markEmailAsVerified();
+
+        // Fire the Verified event
+        event(new Verified($user));
+
+        // Optionally log in the user after verifying
+        Auth::login($user);
+
+        return redirect()->intended(RouteServiceProvider::HOME . '?verified=1');
     }
 }

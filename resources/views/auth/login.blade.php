@@ -1,38 +1,36 @@
 <x-guest-layout>
-     <div class="flex justify-center space-x-4 mt-4">
-        <a href="{{ route('social.redirect', 'google') }}"
-             class="btn btn-google flex items-center justify-center">
-             <img src="{{ asset('logos/google.png') }}" alt="Google" class="w-10 h-10 rounded-full object-cover shadow"></a>
+    <div class="flex justify-center space-x-4 mt-4">
+       <a href="{{ route('social.redirect', 'google') }}"
+            class="btn btn-google flex items-center justify-center">
+            <img src="{{ asset('logos/google.png') }}" alt="Google" class="w-10 h-10 rounded-full object-cover shadow"></a>
 
-        <a href="{{ route('social.redirect', 'linkedin') }}"
-                class="btn btn-linkedin flex items-center justify-center">
-                <img src="{{ asset('logos/linkedin.png') }}" 
-                                            alt="LinkedIn" 
-                                            class="w-10 h-10 rounded-full object-cover shadow"></a>
-     </div>
+       <a href="{{ route('social.redirect', 'linkedin') }}"
+               class="btn btn-linkedin flex items-center justify-center">
+               <img src="{{ asset('logos/linkedin.png') }}"
+                                           alt="LinkedIn"
+                                           class="w-10 h-10 rounded-full object-cover shadow"></a>
+    </div>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
-        @csrf
+       @csrf
 
-        <!-- Email Address -->
+       <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
+       <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -56,9 +54,8 @@
             </x-primary-button>
         </div>
     </form>
-           
-     @if (Route::has('register'))
-        
+
+    @if (Route::has('register'))
         <a href="{{ route('register') }}" style="margin-top: 20px;">Don't have an Account? </a>
     @endif
 </x-guest-layout>
