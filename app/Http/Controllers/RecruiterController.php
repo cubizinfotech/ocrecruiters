@@ -62,7 +62,7 @@ class RecruiterController extends Controller
         }
 
         // Get paginated recruiters
-        $perPage = $request->input('per_page', 8);
+        $perPage = $request->input('per_page', 5);
         $recruiters = $query->paginate($perPage);
 
         // Master dropdowns
@@ -190,27 +190,30 @@ class RecruiterController extends Controller
             'work.*.start_date' => 'nullable|date',
             'work.*.end_date' => 'nullable|date',
             'work.*.company_name' => 'nullable|string|max:255',
-            'work.*.company_city' => 'nullable|string|max:255',
-            'work.*.company_city_name' => 'nullable|string|max:255',
-            'work.*.company_state' => 'nullable|string|max:255',
-            'work.*.company_state_name' => 'nullable|string|max:255',
+            'work.*.city' => 'nullable|string|max:255',
+            'work.*.city_name' => 'nullable|string|max:255',
+            'work.*.state' => 'nullable|string|max:255',
+            'work.*.state_name' => 'nullable|string|max:255',
             'work.*.company_summary' => 'nullable|string',
             'education' => 'nullable|array',
             'education.*.degree' => 'nullable|string|max:255',
             'education.*.field' => 'nullable|string|max:255',
             'education.*.school' => 'nullable|string|max:255',
             'education.*.city' => 'nullable|string|max:255',
+            'education.*.city_name' => 'nullable|string|max:255',
             'education.*.state' => 'nullable|string|max:255',
+            'education.*.state_name' => 'nullable|string|max:255',
             'certifications' => 'nullable|array',
             'certifications.*.cert' => 'nullable|string|max:255',
             'certifications.*.field' => 'nullable|string|max:255',
-            'certifications.*.school' => 'nullable|string|max:255',
+            'certifications.*.institution' => 'nullable|string|max:255',
             'certifications.*.city' => 'nullable|string|max:255',
+            'certifications.*.city_name' => 'nullable|string|max:255',
             'certifications.*.state' => 'nullable|string|max:255',
+            'certifications.*.state_name' => 'nullable|string|max:255',
             'skills' => 'nullable|array',
             'skills.*' => 'string|max:100',
-            // 'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,gif,bmp,webp|max:5120',
-            'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
             'logo_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'banner_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);

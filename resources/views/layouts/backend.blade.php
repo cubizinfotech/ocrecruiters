@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +17,8 @@
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Custom CSS -->
     <link href="{{ asset('css/backend.css') }}" rel="stylesheet">
@@ -27,17 +30,38 @@
             border: 1px solid #ced4da !important;
             border-radius: 0.375rem !important;
         }
+
         .flatpickr-time.flatpickr-input {
             height: 38px !important;
         }
-        .preview-box { border: 1px dashed #e2e8f0; padding: 12px; border-radius: 8px; background:#fafafa; }
-        .img-preview { max-width:100%; height:auto; display:block; }
-        .small-note { font-size: .85rem; color:#6b7280; }
-        .warn { color:#d9534f; font-weight:600; }
+
+        .preview-box {
+            border: 1px dashed #e2e8f0;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .img-preview {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .small-note {
+            font-size: .85rem;
+            color: #6b7280;
+        }
+
+        .warn {
+            color: #d9534f;
+            font-weight: 600;
+        }
     </style>
 
     @yield('styles')
 </head>
+
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
@@ -50,7 +74,7 @@
 
             <!-- Page Content -->
             <div class="container-fluid p-4" style="max-width: 100%;">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="bi bi-check-circle me-2"></i>
                         {{ session('success') }}
@@ -58,7 +82,7 @@
                     </div>
                 @endif
 
-                @if(session('error'))
+                @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle me-2"></i>
                         {{ session('error') }}
@@ -66,11 +90,11 @@
                     </div>
                 @endif
 
-                @if($errors->any())
+                @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle me-2"></i>
                         <ul class="mb-0">
-                            @foreach($errors->all() as $error)
+                            @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
@@ -96,11 +120,13 @@
     <!-- Flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Custom JS -->
     <script src="{{ asset('js/backend.js') }}"></script>
     <script>
-        $(function () {
+        $(function() {
             // Initialize tooltips
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -129,8 +155,37 @@
             //     width: '100%'
             // });
         });
+
+        $('document').ready(function() {
+            $('textarea').each(function() {
+                $(this).val($(this).val().trim());
+            });
+
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "3000",
+                "extendedTimeOut": "500",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            function showToast(message, type = 'info') {
+                toastr[type](message);
+            }
+        });
     </script>
-    
+
     @yield('scripts')
 </body>
+
 </html>

@@ -20,6 +20,9 @@
             background:#fff;
             border:1px solid #ccc;
             overflow-y: auto;
+            position: absolute;
+            margin-left: 13px;
+            width: 91%;
         }
     </style>
 @endsection
@@ -95,19 +98,16 @@
                                 <div class="col-md-9">
                                     <div class="tab-content" id="v-pills-tabContent">
 
-                                        <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel"
-                                            aria-labelledby="v-pills-personal-tab">
+                                        <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel" aria-labelledby="v-pills-personal-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label">First Name <span
-                                                            class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">First Name <span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
                                                         <input type="text" name="first_name" class="form-control"
                                                             required placeholder="Enter first name..."
                                                             value="{{ old('first_name', $resume->first_name ?? '') }}">
                                                     </div>
-                                                    <label class="col-sm-2 col-form-label">Last Name <span
-                                                            class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">Last Name <span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
                                                         <input type="text" name="last_name" class="form-control" required
                                                             value="{{ old('last_name', $resume->last_name ?? '') }}"
@@ -116,15 +116,13 @@
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label">Email <span
-                                                            class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
                                                         <input type="email" name="email" class="form-control"
                                                             required value="{{ old('email', $resume->email ?? '') }}"
                                                             placeholder="Enter email...">
                                                     </div>
-                                                    <label class="col-sm-2 col-form-label">Phone <span
-                                                            class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
                                                         <input type="number" name="phone" class="form-control"
                                                             required value="{{ old('phone', $resume->phone ?? '') }}"
@@ -133,8 +131,7 @@
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label class="col-sm-2 col-form-label">Address <span
-                                                            class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">Address <span class="text-danger">*</span></label>
                                                     <div class="col-sm-10">
                                                         <textarea name="address" rows="3" class="form-control" required placeholder="Enter address...">
                                                             {{ old('address', $resume->address ?? '') }}
@@ -144,8 +141,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane fade" id="v-pills-professional" role="tabpanel"
-                                            aria-labelledby="v-pills-professional-tab">
+                                        <div class="tab-pane fade" id="v-pills-professional" role="tabpanel" aria-labelledby="v-pills-professional-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <label for="professional_summary" class="form-label">Professional Summary
                                                 <span class="text-danger">*</span></label>
@@ -155,15 +151,11 @@
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane fade" id="v-pills-work" role="tabpanel"
-                                            aria-labelledby="v-pills-work-tab">
+                                        <div class="tab-pane fade" id="v-pills-work" role="tabpanel" aria-labelledby="v-pills-work-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div id="workHistoryContainer">
-                                                    <!-- Dynamic work history rows will go here -->
                                                     @php
-                                                        $workHistory = is_array($workHistory)
-                                                            ? $workHistory
-                                                            : json_decode($workHistory, true);
+                                                        $workHistory = is_array($workHistory) ? $workHistory : json_decode($workHistory, true);
                                                         $workHistory = $workHistory ?: [];
                                                     @endphp
 
@@ -192,15 +184,15 @@
 
                                                                 <div class="col-md-3" style="position: relative;">
                                                                     <label class="form-label">State</label>
-                                                                    <input type="text" name="work[{{ $i }}][company_state_name]" class="form-control state-input" placeholder="Search state..." value="{{ $exp['company_state_name'] ?? '' }}" autocomplete="off">
-                                                                    <input type="hidden" name="work[{{ $i }}][company_state]" class="state-id-input" value="{{ $exp['company_state'] ?? '' }}">
+                                                                    <input type="text" name="work[{{ $i }}][state_name]" class="form-control state-input" placeholder="Search state..." value="{{ $exp['state_name'] ?? '' }}" autocomplete="off">
+                                                                    <input type="hidden" name="work[{{ $i }}][state]" class="state-id-input" value="{{ $exp['state'] ?? '' }}">
                                                                     <div class="state-suggestions suggestions-box"></div>
                                                                 </div>
 
                                                                 <div class="col-md-3" style="position: relative;">
                                                                     <label class="form-label">City</label>
-                                                                    <input type="text" name="work[{{ $i }}][company_city_name]" class="form-control city-input" placeholder="Search city..." value="{{ $exp['company_city_name'] ?? '' }}" autocomplete="off">
-                                                                    <input type="hidden" name="work[{{ $i }}][company_city]" class="city-id-input" value="{{ $exp['company_city'] ?? '' }}">
+                                                                    <input type="text" name="work[{{ $i }}][city_name]" class="form-control city-input" placeholder="Search city..." value="{{ $exp['city_name'] ?? '' }}" autocomplete="off">
+                                                                    <input type="hidden" name="work[{{ $i }}][city]" class="city-id-input" value="{{ $exp['city'] ?? '' }}">
                                                                     <div class="city-suggestions suggestions-box"></div>
                                                                 </div>
                                                             </div>
@@ -217,22 +209,17 @@
                                                     @endforeach
                                                 </div>
 
-                                                <button type="button" onclick="addWorkHistoryRow()"
-                                                    class="btn btn-outline-primary btn-sm mt-3">
+                                                <button type="button" onclick="addWorkHistoryRow()" class="btn btn-outline-primary btn-sm mt-3">
                                                     + Add Work History
                                                 </button>
                                             </div>
                                         </div>
 
-
-                                        <div class="tab-pane fade" id="v-pills-edu" role="tabpanel"
-                                            aria-labelledby="v-pills-edu-tab">
+                                        <div class="tab-pane fade" id="v-pills-edu" role="tabpanel" aria-labelledby="v-pills-edu-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div id="educationContainer">
                                                     @php
-                                                        $educationData = is_array($educationData)
-                                                            ? $educationData
-                                                            : json_decode($educationData, true);
+                                                        $educationData = is_array($educationData) ? $educationData : json_decode($educationData, true);
                                                         $educationData = $educationData ?: [];
                                                     @endphp
 
@@ -241,85 +228,52 @@
                                                             <div class="row g-2">
                                                                 <div class="col-md-4 mb-2">
                                                                     <label class="form-label">Degree</label>
-                                                                    <input type="text"
-                                                                        name="education[{{ $i }}][degree]"
-                                                                        class="form-control"
-                                                                        value="{{ $edu['degree'] ?? '' }}">
+                                                                    <input type="text" name="education[{{ $i }}][degree]" class="form-control"
+                                                                        value="{{ $edu['degree'] ?? '' }}" placeholder="Enter degree name">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label class="form-label">Field of Study</label>
-                                                                    <input type="text"
-                                                                        name="education[{{ $i }}][field]"
-                                                                        class="form-control"
-                                                                        value="{{ $edu['field'] ?? '' }}">
+                                                                    <input type="text" name="education[{{ $i }}][field]" class="form-control"
+                                                                        value="{{ $edu['field'] ?? '' }}" placeholder="Enter field of study">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label class="form-label">School Name</label>
-                                                                    <input type="text"
-                                                                        name="education[{{ $i }}][school]"
-                                                                        class="form-control"
-                                                                        value="{{ $edu['school'] ?? '' }}">
+                                                                    <input type="text" name="education[{{ $i }}][school]" class="form-control"
+                                                                        value="{{ $edu['school'] ?? '' }}" placeholder="Enter school name">
                                                                 </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label"
-                                                                        for="edu_state_{{ $i }}">State</label>
-                                                                    <select name="education[{{ $i }}][state]"
-                                                                        class="form-select state_select"
-                                                                        id="edu_state_{{ $i }}">
-                                                                        @if (isset($edu['state']))
-                                                                            @php
-                                                                                $state = \App\Models\State::find(
-                                                                                    $edu['state'],
-                                                                                );
-                                                                            @endphp
-                                                                            @if ($state)
-                                                                                <option value="{{ $state->id }}"
-                                                                                    selected>{{ $state->name }}</option>
-                                                                            @endif
-                                                                        @endif
-                                                                    </select>
+
+                                                                <div class="col-md-4 mb-2 position-relative">
+                                                                    <label class="form-label">State</label>
+                                                                    <input type="text" name="education[{{ $i }}][state_name]" class="form-control state-input"
+                                                                        placeholder="Search state..." value="{{ $edu['state_name'] ?? '' }}">
+                                                                    <input type="hidden" name="education[{{ $i }}][state]" class="state-id-input" value="{{ $edu['state'] ?? '' }}">
+                                                                    <div class="state-suggestions suggestions-box"></div>
                                                                 </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label"
-                                                                        for="edu_city_{{ $i }}">City</label>
-                                                                    <select name="education[{{ $i }}][city]"
-                                                                        class="form-select city_select"
-                                                                        id="edu_city_{{ $i }}">
-                                                                        @if (isset($edu['city']))
-                                                                            @php
-                                                                                $city = \App\Models\City::find(
-                                                                                    $edu['city'],
-                                                                                );
-                                                                            @endphp
-                                                                            @if ($city)
-                                                                                <option value="{{ $city->id }}"
-                                                                                    selected>{{ $city->name }}</option>
-                                                                            @endif
-                                                                        @endif
-                                                                    </select>
+
+                                                                <div class="col-md-4 mb-2 position-relative">
+                                                                    <label class="form-label">City</label>
+                                                                    <input type="text" name="education[{{ $i }}][city_name]" class="form-control city-input"
+                                                                        placeholder="Search city..." value="{{ $edu['city_name'] ?? '' }}">
+                                                                    <input type="hidden" name="education[{{ $i }}][city]" class="city-id-input" value="{{ $edu['city'] ?? '' }}">
+                                                                    <div class="city-suggestions suggestions-box"></div>
                                                                 </div>
                                                             </div>
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-danger removeEducation mt-2">Remove</button>
+                                                            <button type="button" class="btn btn-sm btn-danger removeEducation mt-2">Remove</button>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <button type="button" id="addEducation"
-                                                    class="btn btn-outline-primary btn-sm mt-3">
+
+                                                <button type="button" id="addEducation" class="btn btn-outline-primary btn-sm mt-3">
                                                     + Add Education
                                                 </button>
                                             </div>
                                         </div>
 
-
-                                        <div class="tab-pane fade" id="v-pills-cert" role="tabpanel"
-                                            aria-labelledby="v-pills-cert-tab">
+                                        <div class="tab-pane fade" id="v-pills-cert" role="tabpanel" aria-labelledby="v-pills-cert-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div id="certificateContainer">
                                                     @php
-                                                        $certData = is_array($certData)
-                                                            ? $certData
-                                                            : json_decode($certData, true);
+                                                        $certData = is_array($certData) ? $certData : json_decode($certData, true);
                                                         $certData = $certData ?: [];
                                                     @endphp
 
@@ -328,108 +282,69 @@
                                                             <div class="row g-2">
                                                                 <div class="col-md-4 mb-2">
                                                                     <label class="form-label">Certifications</label>
-                                                                    <input type="text"
-                                                                        name="certifications[{{ $i }}][cert]"
-                                                                        class="form-control"
-                                                                        value="{{ $cer['cert'] ?? '' }}">
-                                                                </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label">Field of Study</label>
-                                                                    <input type="text"
-                                                                        name="certifications[{{ $i }}][field]"
-                                                                        class="form-control"
-                                                                        value="{{ $cer['field'] ?? '' }}">
-                                                                </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label">School Name</label>
-                                                                    <input type="text"
-                                                                        name="certifications[{{ $i }}][school]"
-                                                                        class="form-control"
-                                                                        value="{{ $cer['school'] ?? '' }}">
-                                                                </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label"
-                                                                        for="cert_state_{{ $i }}">State</label>
-                                                                    <select
-                                                                        name="certifications[{{ $i }}][state]"
-                                                                        class="form-select state_select"
-                                                                        id="cert_state_{{ $i }}">
-                                                                        @if (isset($cer['state']))
-                                                                            @php
-                                                                                $state = \App\Models\State::find(
-                                                                                    $cer['state'],
-                                                                                );
-                                                                            @endphp
-                                                                            @if ($state)
-                                                                                <option value="{{ $state->id }}"
-                                                                                    selected>{{ $state->name }}</option>
-                                                                            @endif
-                                                                        @endif
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-md-4 mb-2">
-                                                                    <label class="form-label"
-                                                                        for="cert_city_{{ $i }}">City</label>
-                                                                    <select
-                                                                        name="certifications[{{ $i }}][city]"
-                                                                        class="form-select city_select"
-                                                                        id="cert_city_{{ $i }}">
-                                                                        @if (isset($cer['city']))
-                                                                            @php
-                                                                                $city = \App\Models\City::find(
-                                                                                    $cer['city'],
-                                                                                );
-                                                                            @endphp
-                                                                            @if ($city)
-                                                                                <option value="{{ $city->id }}"
-                                                                                    selected>{{ $city->name }}</option>
-                                                                            @endif
-                                                                        @endif
-                                                                    </select>
+                                                                    <input type="text" name="certifications[{{ $i }}][cert]" class="form-control"
+                                                                        value="{{ $cer['cert'] ?? '' }}" placeholder="Enter certification name">
                                                                 </div>
 
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label class="form-label">Field of Study</label>
+                                                                    <input type="text" name="certifications[{{ $i }}][field]" class="form-control"
+                                                                        value="{{ $cer['field'] ?? '' }}" placeholder="Enter field of study">
+                                                                </div>
+
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label class="form-label">Institution Name</label>
+                                                                    <input type="text" name="certifications[{{ $i }}][institution]" class="form-control"
+                                                                        value="{{ $cer['institution'] ?? '' }}" placeholder="Enter institution name">
+                                                                </div>
+
+                                                                <div class="col-md-4 mb-2 position-relative">
+                                                                    <label class="form-label">State</label>
+                                                                    <input type="text" name="certifications[{{ $i }}][state_name]" class="form-control state-input"
+                                                                        placeholder="Search state..." value="{{ $cer['state_name'] ?? '' }}">
+                                                                    <input type="hidden" name="certifications[{{ $i }}][state]" class="state-id-input" value="{{ $cer['state'] ?? '' }}">
+                                                                    <div class="state-suggestions suggestions-box"></div>
+                                                                </div>
+
+                                                                <div class="col-md-4 mb-2 position-relative">
+                                                                    <label class="form-label">City</label>
+                                                                    <input type="text" name="certifications[{{ $i }}][city_name]" class="form-control city-input"
+                                                                        placeholder="Search city..." value="{{ $cer['city_name'] ?? '' }}">
+                                                                    <input type="hidden" name="certifications[{{ $i }}][city]" class="city-id-input" value="{{ $cer['city'] ?? '' }}">
+                                                                    <div class="city-suggestions suggestions-box"></div>
+                                                                </div>
                                                             </div>
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-danger removeCertifications mt-2">Remove</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger removeCertifications mt-2">Remove</button>
                                                         </div>
                                                     @endforeach
                                                 </div>
-                                                <button type="button" id="addCertifications"
-                                                    class="btn btn-outline-primary btn-sm mt-3">
+
+                                                <button type="button" onclick="addCertificationsRow()" class="btn btn-outline-primary btn-sm mt-3">
                                                     + Add Certifications
                                                 </button>
                                             </div>
                                         </div>
 
-
-                                        <div class="tab-pane fade" id="v-pills-skill" role="tabpanel"
-                                            aria-labelledby="v-pills-skill-tab">
+                                        <div class="tab-pane fade" id="v-pills-skill" role="tabpanel" aria-labelledby="v-pills-skill-tab">
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div class="border rounded p-3 bg-light">
                                                     <label for="skillInput" class="form-label">Add Skills</label>
                                                     <div class="input-group">
-                                                        <input type="text" id="skillInput" class="form-control"
-                                                            placeholder="Type a skill and press Enter">
-                                                        <button type="button" id="addSkillBtn"
-                                                            class="btn btn-primary">Add</button>
+                                                        <input type="text" id="skillInput" class="form-control" placeholder="Type a skill and press Enter">
+                                                        <button type="button" id="addSkillBtn" class="btn btn-primary">Add</button>
                                                     </div>
                                                     <div id="skillsContainer" class="mt-3 d-flex flex-wrap gap-2">
-
                                                         @php
                                                             $skillsData = $resume->skills ?? [];
-                                                            $skills = is_array($skillsData)
-                                                                ? $skillsData
-                                                                : json_decode($skillsData, true);
+                                                            $skills = is_array($skillsData) ? $skillsData : json_decode($skillsData, true);
                                                         @endphp
 
                                                         @foreach ($skills as $skill)
                                                             <span class="badge bg-success text-white skill-tag">
                                                                 {{ $skill }}
-                                                                <button type="button"
-                                                                    class="btn-close btn-close-white btn-sm ms-1 remove-skill"
-                                                                    aria-label="Remove"></button>
-                                                                <input type="hidden" name="skills[]"
-                                                                    value="{{ $skill }}">
+                                                                <button type="button" class="btn-close btn-close-white btn-sm ms-1 remove-skill" aria-label="Remove"></button>
+                                                                <input type="hidden" name="skills[]" value="{{ $skill }}">
                                                             </span>
                                                         @endforeach
                                                     </div>
@@ -437,90 +352,106 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="tab-pane fade" id="v-pills-files" role="tabpanel"
-                                            aria-labelledby="v-pills-files-tab">
-                                            <div class="mb-3">
-                                                <label for="resume_file" class="form-label">Upload Resume</label>
-                                                <input type="file" name="resume_file" id="resume_file"
-                                                    class="form-control @error('resume_file') is-invalid @enderror"
-                                                    accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.webp">
-                                                @error('resume_file')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-
-                                            @if (!empty($resume->file_path))
-                                                <a href="{{ asset('storage/' . $resume->file_path) }}" target="_blank"
-                                                    class="text-decoration-none ms-2 text-sm" style="float: right;">
-                                                    {{ $resume->original_file_name ?? basename($resume->file_path) }}
-                                                </a>
-                                            @endif
-
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Upload Logo (min: 100x100)</label>
-                                                <input type="file" name="logo_file" class="form-control"
-                                                    accept=".jpg,.jpeg,.png,.webp">
-                                                <div id="logo_preview" class="mt-2" style="display:none;">
-                                                    <img id="logo_preview_img" src="#" alt="Logo Preview"
-                                                        width="100" height="100" class="rounded border">
-                                                    <span id="logo_preview_name" class="ms-2 small text-muted"></span>
+                                        <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
+                                            <div class="row g-4">
+                                                {{-- Resume --}}
+                                                <div class="col-md-6">
+                                                    <label for="resume_file" class="form-label fw-semibold">Upload Resume</label>
+                                                    <input type="file" name="resume_file" id="resume_file"
+                                                        class="form-control @error('resume_file') is-invalid @enderror"
+                                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.bmp,.webp">
+                                                    @error('resume_file')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                    <div id="resume_preview_container_upload"></div>
                                                 </div>
-                                                @if (!empty($resume->logo_path))
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('storage/' . $resume->logo_path) }}"
-                                                            alt="Logo Preview" width="100" height="100"
-                                                            class="rounded border">
-                                                        <a href="{{ asset('storage/' . $resume->logo_path) }}"
-                                                            target="_blank" class="ms-2">
-                                                            {{ $resume->logo_original_name ?? basename($resume->logo_path) }}
-                                                        </a>
+                                                <div class="col-md-6">
+                                                    <div id="resume_preview_container" class="p-2 border rounded" style="min-height:80px;">
+                                                        @if (!empty($resume->file_path))
+                                                            @php
+                                                                $ext = strtolower(pathinfo($resume->file_path, PATHINFO_EXTENSION));
+                                                                $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
+                                                                $fileUrl = asset('storage/' . $resume->file_path);
+                                                                $fileName = $resume->original_file_name ?? basename($resume->file_path);
+                                                            @endphp
+                                                            @if ($isImage)
+                                                                <img src="{{ $fileUrl }}" alt="Resume" width="100" class="rounded border mb-2"><br>
+                                                            @endif
+                                                            <span>{{ $fileName }}</span><br>
+                                                            <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
+                                                            <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
+                                                        @endif
                                                     </div>
-                                                @endif
-
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Upload Banner (min: 1200x400)</label>
-                                                <input type="file" name="banner_file" class="form-control"
-                                                    accept=".jpg,.jpeg,.png,.webp">
-                                                <div id="banner_preview" class="mt-2" style="display:none;">
-                                                    <img id="banner_preview_img" src="#" alt="Banner Preview"
-                                                        width="300" height="100" class="rounded border">
-                                                    <span id="banner_preview_name" class="ms-2 small text-muted"></span>
                                                 </div>
-                                                @if (!empty($resume->banner_path))
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('storage/' . $resume->banner_path) }}"
-                                                            alt="Banner Preview" width="300" height="100"
-                                                            class="rounded border">
-                                                        <a href="{{ asset('storage/' . $resume->banner_path) }}"
-                                                            target="_blank" class="ms-2">
-                                                            {{ $resume->banner_original_name ?? basename($resume->banner_path) }}
-                                                        </a>
+
+                                                {{-- Logo --}}
+                                                <div class="col-md-6">
+                                                    <label for="logo_file" class="form-label fw-semibold">Upload Logo (min: 100x100)</label>
+                                                    <input type="file" name="logo_file" id="logo_file" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                                                    @error('logo_file')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                    <div id="logo_preview_container_upload"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="logo_preview_container" class="p-2 border rounded" style="min-height:80px;">
+                                                        @if (!empty($resume->logo_path))
+                                                            @php
+                                                                $ext = strtolower(pathinfo($resume->logo_path, PATHINFO_EXTENSION));
+                                                                $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
+                                                                $fileUrl = asset('storage/' . $resume->logo_path);
+                                                                $fileName = $resume->logo_original_name ?? basename($resume->logo_path);
+                                                            @endphp
+                                                            @if ($isImage)
+                                                                <img src="{{ $fileUrl }}" alt="Logo" width="100" height="100" class="rounded border mb-2"><br>
+                                                            @endif
+                                                            <span>{{ $fileName }}</span><br>
+                                                            <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
+                                                            <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
+                                                        @endif
                                                     </div>
-                                                @endif
+                                                </div>
+
+                                                {{-- Banner --}}
+                                                <div class="col-md-6">
+                                                    <label for="banner_file" class="form-label fw-semibold">Upload Banner (min: 1200x400)</label>
+                                                    <input type="file" name="banner_file" id="banner_file" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                                                    @error('banner_file')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                    <div id="banner_preview_container_upload"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="banner_preview_container" class="p-2 border rounded" style="min-height:80px;">
+                                                        @if (!empty($resume->banner_path))
+                                                            @php
+                                                                $ext = strtolower(pathinfo($resume->banner_path, PATHINFO_EXTENSION));
+                                                                $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
+                                                                $fileUrl = asset('storage/' . $resume->banner_path);
+                                                                $fileName = $resume->banner_original_name ?? basename($resume->banner_path);
+                                                            @endphp
+                                                            @if ($isImage)
+                                                                <img src="{{ $fileUrl }}" alt="Banner" width="300" height="100" class="rounded border mb-2"><br>
+                                                            @endif
+                                                            <span>{{ $fileName }}</span><br>
+                                                            <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
+                                                            <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
-
-
                                         </div>
-
 
                                     </div>
                                 </div>
                             </div>
 
                             <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-primary btn-sm">
-                                    Save Changes
-                                </button>
+                                <button type="submit" class="btn btn-primary btn-sm"> Save Changes </button>
                             </div>
                         </form>
-
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -532,204 +463,11 @@
         // Initialize CKEditor for professional summary
         ClassicEditor.create(document.querySelector('#professional_summary'))
         .then(editor => {
-            editor.ui.view.editable.element.style.height = '300px'; // force height
+            editor.ui.view.editable.element.style.height = '300px';
         })
         .catch(console.error);
 
-        function initStateSelect2(selector) {
-            $(selector).select2({
-                placeholder: 'Search state...',
-                minimumInputLength: 1,
-                width: '100%',
-                ajax: {
-                    url: '{{ route('state.ajax') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.data.map(function(item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                };
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-        }
-
-        function initCitySelect2(selector, stateSelector) {
-            $(selector).select2({
-                placeholder: 'Search city...',
-                minimumInputLength: 1,
-                width: '100%',
-                ajax: {
-                    url: '{{ route('city.ajax') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        const stateId = $(stateSelector).val();
-                        return {
-                            q: params.term,
-                            state_id: stateId
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data.data.map(function(item) {
-                                return {
-                                    id: item.id,
-                                    text: item.name
-                                };
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-
-            // Prevent opening city if state not selected
-            $(selector).on('select2:opening select2:open', function(e) {
-                const stateId = $(stateSelector).val();
-                if (!stateId) {
-                    alert('Please select a state first.');
-                    e.preventDefault();
-                }
-            });
-        }
-
-        function addCertificationsRow() {
-            const certIndex = document.querySelectorAll('.certifications-item').length + 1;
-            const cer_template = `
-            <div class="certifications-item border rounded p-3 mb-3 bg-light">
-                <div class="row g-2">
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Certifications</label>
-                        <input type="text" name="certifications[${certIndex}][cert]" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Field of Study</label>
-                        <input type="text" name="certifications[${certIndex}][field]" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">School Name</label>
-                        <input type="text" name="certifications[${certIndex}][school]" class="form-control">
-
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label" for="cert_state_${certIndex}">State</label>
-                        <select name="certifications[${certIndex}][state]" class="form-select state_select" id="cert_state_${certIndex}">
-
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label" for="cert_city_${certIndex}">City</label>
-                        <select name="certifications[${certIndex}][city]" class="form-select city_select" id="cert_city_${certIndex}">
-
-                        </select>
-                    </div>
-
-                </div>
-                <button type="button" class="btn btn-sm btn-danger removeCertifications mt-2">Remove</button>
-            </div>
-        `;
-            $('#certificateContainer').append(cer_template);
-
-            let stateSelector = `#cert_state_${certIndex}`;
-            let citySelector = `#cert_city_${certIndex}`;
-
-            initStateSelect2(stateSelector);
-            initCitySelect2(citySelector, stateSelector);
-
-        }
-
-        function addEducationRow() {
-            const eduIndex = document.querySelectorAll('.education-item').length + 1;
-            const edu_template = `
-            <div class="education-item border rounded p-3 mb-3 bg-light">
-                <div class="row g-2">
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Degree</label>
-                        <input type="text" name="education[${eduIndex}][degree]" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">Field of Study</label>
-                        <input type="text" name="education[${eduIndex}][field]" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label">School Name</label>
-                        <input type="text" name="education[${eduIndex}][school]" class="form-control">
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label" for="edu_state_${eduIndex}">State</label>
-                        <select name="education[${eduIndex}][state]" class="form-select state_select" id="edu_state_${eduIndex}">
-
-                        </select>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <label class="form-label" for="edu_city_${eduIndex}">City</label>
-                        <select name="education[${eduIndex}][city]" class="form-select city_select" id="edu_city_${eduIndex}">
-
-                        </select>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-sm btn-danger removeEducation mt-2">Remove</button>
-            </div>
-        `;
-            $('#educationContainer').append(edu_template);
-
-            let stateSelector = `#edu_state_${eduIndex}`;
-            let citySelector = `#edu_city_${eduIndex}`;
-
-            initStateSelect2(stateSelector);
-            initCitySelect2(citySelector, stateSelector);
-
-        }
-
-        $('#addEducation').click(function() {
-            addEducationRow();
-        });
-
-        $('#addCertifications').click(function() {
-            addCertificationsRow();
-        });
-
-        // Remove work history block
-        $(document).on('click', '.remove-work', function() {
-            const item = $(this).closest('.work-history-item');
-            const textarea = item.find('.work-summary')[0];
-            if (textarea && textarea.editorInstance) {
-                textarea.editorInstance.destroy().catch(console.error);
-            }
-            $(this).closest('.work-history-item').remove();
-        });
-
-        $(document).on('click', '.removeCertifications', function() {
-            $(this).closest('.certifications-item').remove();
-        });
-
-        $(document).on('click', '.removeEducation', function() {
-            $(this).closest('.education-item').remove();
-        });
-
         document.addEventListener('DOMContentLoaded', function() {
-
-            $('.state_select').each(function() {
-                initStateSelect2(this);
-            });
-
-            $('.city_select').each(function() {
-                const stateSelector = $(this).closest('.row').find('.state_select');
-                initCitySelect2(this, stateSelector);
-            });
-
             const skillInput = document.getElementById('skillInput');
             const addSkillBtn = document.getElementById('addSkillBtn');
             const skillsContainer = document.getElementById('skillsContainer');
@@ -759,10 +497,10 @@
                 const tag = document.createElement('span');
                 tag.className = 'badge bg-primary text-white skill-tag d-inline-flex align-items-center px-2 py-1';
                 tag.innerHTML = `
-                ${skill}
-                <button type="button" class="btn-close btn-close-white btn-sm ms-1 remove-skill" aria-label="Remove"></button>
-                <input type="hidden" name="skills[]" value="${skill}">
-            `;
+                        ${skill}
+                        <button type="button" class="btn-close btn-close-white btn-sm ms-1 remove-skill" aria-label="Remove"></button>
+                        <input type="hidden" name="skills[]" value="${skill}">
+                    `;
                 skillsContainer.appendChild(tag);
             }
 
@@ -770,32 +508,6 @@
             $(document).on('click', '.remove-skill', function() {
                 $(this).closest('.skill-tag').remove();
             });
-
-            function previewImage(inputId, previewDivId, imgId, nameId) {
-                const input = document.getElementById(inputId);
-                const previewDiv = document.getElementById(previewDivId);
-                const img = document.getElementById(imgId);
-                const name = document.getElementById(nameId);
-
-                input.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            img.src = e.target.result;
-                            name.textContent = file.name;
-                            previewDiv.style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        previewDiv.style.display = 'none';
-                    }
-                });
-            }
-
-            previewImage('logo_file', 'logo_preview', 'logo_preview_img', 'logo_preview_name');
-            previewImage('banner_file', 'banner_preview', 'banner_preview_img', 'banner_preview_name');
-
         });
 
         document.getElementById("resumeForm").addEventListener("submit", function(e) {
@@ -829,40 +541,98 @@
                 }
 
                 firstInvalid.focus();
-                alert("Please fill all required fields before submitting.");
+                showToast("Please fill all required fields before submitting.", 'error');
             }
         });
 
+        document.addEventListener("DOMContentLoaded", function() {
 
+            function setupFilePreview(inputId, previewContainerId, allowedTypes, maxSizeKB, minWidth = 0, minHeight = 0) {
+                const input = document.getElementById(inputId);
+                const container = document.getElementById(previewContainerId);
 
+                input.addEventListener('change', function() {
 
+                    $(this).removeClass("is-invalid");
 
+                    const file = this.files[0];
+                    if (!file) {
+                        container.innerHTML = '';
+                        return;
+                    }
 
+                    const fileType = file.type.toLowerCase();
+                    const fileName = file.name;
+                    const fileSizeKB = file.size / 1024;
+                    const extension = fileName.split('.').pop().toLowerCase();
 
+                    // File type validation
+                    if (!allowedTypes.includes(extension)) {
+                        showToast(`Invalid file type! Allowed: ${allowedTypes.join(', ')}`, 'error');
+                        this.value = '';
+                        container.innerHTML = '';
+                        focusInvalidField(this);
+                        return;
+                    }
 
+                    // File size validation
+                    if (fileSizeKB > maxSizeKB) {
+                        showToast(`File too large! Max allowed: ${maxSizeKB / 1024} MB`, 'error');
+                        this.value = '';
+                        container.innerHTML = '';
+                        focusInvalidField(this);
+                        return;
+                    }
 
+                    // For images: check minimum dimensions
+                    if (fileType.startsWith('image/') && (minWidth > 0 || minHeight > 0)) {
+                        const img = new Image();
+                        img.onload = () => {
+                            if (img.width < minWidth || img.height < minHeight) {
+                                showToast(`Image must be at least ${minWidth}x${minHeight} pixels`, 'error');
+                                input.value = '';
+                                container.innerHTML = '';
+                                focusInvalidField(input);
+                                return;
+                            }
+                            renderPreview(img, fileName);
+                        };
+                        img.src = URL.createObjectURL(file);
+                    } else {
+                        renderPreview(null, fileName);
+                    }
+                });
 
+                function renderPreview(imgElement, fileName) {
+                    container.innerHTML = '';
+                    if (imgElement) {
+                        imgElement.className = 'rounded border mb-2';
+                        imgElement.width = 100;
+                        container.appendChild(imgElement);
+                    }
+                    const span = document.createElement('span');
+                    span.textContent = fileName;
+                    container.appendChild(span);
+                    container.appendChild(document.createElement('br'));
+                }
+            }
 
+            // Focus invalid field and activate its tab
+            function focusInvalidField(field) {
+                $(field).addClass("is-invalid");
+                field.focus();
+            }
 
+            // Resume
+            setupFilePreview('resume_file', 'resume_preview_container_upload', ['pdf','jpg','jpeg','png'], 3072);
 
+            // Logo
+            setupFilePreview('logo_file', 'logo_preview_container_upload', ['jpg','jpeg','png','webp'], 1024, 100, 100);
 
+            // Banner with min dimension 1200x400
+            setupFilePreview('banner_file', 'banner_preview_container_upload', ['jpg','jpeg','png','webp'], 2048, 1200, 400);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        });
 
         // Pass from backend
         const stateOptions = @json($stateOptions); // [{id, name}]
@@ -957,6 +727,25 @@
                 }
             });
 
+            // ---------- Clear input if not selected ----------
+            stateInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!stateIdInput.value) {
+                        stateInput.value = '';
+                    }
+                    stateSuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
+            cityInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!cityIdInput.value) {
+                        cityInput.value = '';
+                    }
+                    citySuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
             // Initialize CKEditor for this row
             const summaryTextarea = workItem.querySelector('.work-summary');
             if (summaryTextarea) {
@@ -967,9 +756,6 @@
             const removeBtn = workItem.querySelector('.remove-work');
             removeBtn?.addEventListener('click', () => workItem.remove());
         }
-
-        // Initialize existing rows
-        document.querySelectorAll('.work-history-item').forEach(initWorkRow);
 
         // ---------- Add new dynamic row ----------
         function addWorkHistoryRow() {
@@ -997,16 +783,16 @@
                         <label class="form-label">Company Name</label>
                         <input type="text" name="work[${index}][company_name]" class="form-control" placeholder="e.g. ABC Corp">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="position: relative;">
                         <label class="form-label">State</label>
-                        <input type="text" name="work[${index}][company_state_name]" class="form-control state-input" placeholder="Search state...">
-                        <input type="hidden" name="work[${index}][company_state]" class="state-id-input">
+                        <input type="text" name="work[${index}][state_name]" class="form-control state-input" placeholder="Search state...">
+                        <input type="hidden" name="work[${index}][state]" class="state-id-input">
                         <div class="state-suggestions suggestions-box"></div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="position: relative;">
                         <label class="form-label">City</label>
-                        <input type="text" name="work[${index}][company_city_name]" class="form-control city-input" placeholder="Search city...">
-                        <input type="hidden" name="work[${index}][company_city]" class="city-id-input">
+                        <input type="text" name="work[${index}][city_name]" class="form-control city-input" placeholder="Search city...">
+                        <input type="hidden" name="work[${index}][city]" class="city-id-input">
                         <div class="city-suggestions suggestions-box"></div>
                     </div>
                 </div>
@@ -1019,5 +805,316 @@
             container.appendChild(template);
             initWorkRow(template);
         }
+
+        // Initialize existing rows
+        document.querySelectorAll('.work-history-item').forEach(initWorkRow);
+
+        function initEducationRow(eduItem) {
+            const stateInput = eduItem.querySelector('.state-input');
+            const stateIdInput = eduItem.querySelector('.state-id-input');
+            const stateSuggestionBox = eduItem.querySelector('.state-suggestions');
+
+            const cityInput = eduItem.querySelector('.city-input');
+            const cityIdInput = eduItem.querySelector('.city-id-input');
+            const citySuggestionBox = eduItem.querySelector('.city-suggestions');
+
+            // ---------- STATE AUTOCOMPLETE ----------
+            stateInput.addEventListener('input', function () {
+                stateIdInput.value = '';
+                stateSuggestionBox.innerHTML = '';
+
+                const query = stateInput.value.toLowerCase().trim();
+                if (!query) { stateSuggestionBox.style.display = 'none'; return; }
+
+                const filtered = stateOptions.filter(s => s.name.toLowerCase().includes(query));
+
+                filtered.forEach(state => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item');
+                    div.textContent = state.name;
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        stateInput.value = state.name;
+                        stateIdInput.value = state.id;
+                        stateSuggestionBox.style.display = 'none';
+
+                        // Clear city when state changes
+                        cityInput.value = '';
+                        cityIdInput.value = '';
+                    };
+                    stateSuggestionBox.appendChild(div);
+                });
+
+                stateSuggestionBox.style.display = 'block';
+            });
+
+            // ---------- CITY AUTOCOMPLETE ----------
+            cityInput.addEventListener('input', function () {
+                cityIdInput.value = '';
+                citySuggestionBox.innerHTML = '';
+
+                const query = cityInput.value.toLowerCase().trim();
+                if (!query) { citySuggestionBox.style.display = 'none'; return; }
+
+                let filteredCities = cityOptions;
+                if (stateIdInput.value) {
+                    filteredCities = cityOptions.filter(c => c.state_id == stateIdInput.value);
+                }
+
+                filteredCities = filteredCities.filter(c => c.name.toLowerCase().includes(query));
+
+                filteredCities.forEach(city => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item');
+                    div.textContent = city.name;
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        cityInput.value = city.name;
+                        cityIdInput.value = city.id;
+                        citySuggestionBox.style.display = 'none';
+                        if (!stateIdInput.value) {
+                            const state = stateOptions.find(s => s.id === city.state_id);
+                            if (state) {
+                                stateInput.value = state.name;
+                                stateIdInput.value = state.id;
+                            }
+                        }
+                    };
+                    citySuggestionBox.appendChild(div);
+                });
+
+                citySuggestionBox.style.display = 'block';
+            });
+
+            // ---------- Blur / outside click ----------
+            stateInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!stateIdInput.value) stateInput.value = '';
+                    stateSuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
+            cityInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!cityIdInput.value) cityInput.value = '';
+                    citySuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!eduItem.contains(e.target)) {
+                    stateSuggestionBox.style.display = 'none';
+                    citySuggestionBox.style.display = 'none';
+                }
+            });
+
+            // Remove education row
+            const removeBtn = eduItem.querySelector('.removeEducation');
+            removeBtn?.addEventListener('click', () => eduItem.remove());
+        }
+
+        // ---------- Add new row dynamically ----------
+        $('#addEducation').click(function () {
+            const index = document.querySelectorAll('.education-item').length;
+            const template = `
+                <div class="education-item border rounded p-3 mb-3 bg-light">
+                    <div class="row g-2">
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">Degree</label>
+                            <input type="text" name="education[${index}][degree]" class="form-control" placeholder="Enter degree name">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">Field of Study</label>
+                            <input type="text" name="education[${index}][field]" class="form-control" placeholder="Enter field of study">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">School Name</label>
+                            <input type="text" name="education[${index}][school]" class="form-control" placeholder="Enter school name">
+                        </div>
+                        <div class="col-md-4 mb-2 position-relative">
+                            <label class="form-label">State</label>
+                            <input type="text" name="education[${index}][state_name]" class="form-control state-input" placeholder="Search state...">
+                            <input type="hidden" name="education[${index}][state]" class="state-id-input">
+                            <div class="state-suggestions suggestions-box"></div>
+                        </div>
+                        <div class="col-md-4 mb-2 position-relative">
+                            <label class="form-label">City</label>
+                            <input type="text" name="education[${index}][city_name]" class="form-control city-input" placeholder="Search city...">
+                            <input type="hidden" name="education[${index}][city]" class="city-id-input">
+                            <div class="city-suggestions suggestions-box"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger removeEducation mt-2">Remove</button>
+                </div>`;
+            $('#educationContainer').append(template);
+            initEducationRow($('#educationContainer .education-item').last()[0]);
+        });
+
+        // ---------- Initialize existing rows ----------
+        document.querySelectorAll('.education-item').forEach(initEducationRow);
+
+        function initCertificationRow(certItem) {
+            const stateInput = certItem.querySelector('.state-input');
+            const stateIdInput = certItem.querySelector('.state-id-input');
+            const stateSuggestionBox = certItem.querySelector('.state-suggestions');
+
+            const cityInput = certItem.querySelector('.city-input');
+            const cityIdInput = certItem.querySelector('.city-id-input');
+            const citySuggestionBox = certItem.querySelector('.city-suggestions');
+
+            // ---------- STATE AUTOCOMPLETE ----------
+            stateInput.addEventListener('input', function () {
+                stateIdInput.value = '';
+                stateSuggestionBox.innerHTML = '';
+
+                const query = stateInput.value.toLowerCase().trim();
+                if (!query) { stateSuggestionBox.style.display = 'none'; return; }
+
+                const filtered = stateOptions.filter(s => s.name.toLowerCase().includes(query));
+
+                filtered.forEach(state => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item');
+                    div.textContent = state.name;
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        stateInput.value = state.name;
+                        stateIdInput.value = state.id;
+                        stateSuggestionBox.style.display = 'none';
+
+                        // Clear city when state changes
+                        cityInput.value = '';
+                        cityIdInput.value = '';
+                    };
+                    stateSuggestionBox.appendChild(div);
+                });
+
+                stateSuggestionBox.style.display = 'block';
+            });
+
+            // ---------- CITY AUTOCOMPLETE ----------
+            cityInput.addEventListener('input', function () {
+                cityIdInput.value = '';
+                citySuggestionBox.innerHTML = '';
+
+                const query = cityInput.value.toLowerCase().trim();
+                if (!query) { citySuggestionBox.style.display = 'none'; return; }
+
+                let filteredCities = cityOptions;
+                if (stateIdInput.value) {
+                    filteredCities = cityOptions.filter(c => c.state_id == stateIdInput.value);
+                }
+
+                filteredCities = filteredCities.filter(c => c.name.toLowerCase().includes(query));
+
+                filteredCities.forEach(city => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion-item');
+                    div.textContent = city.name;
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => {
+                        cityInput.value = city.name;
+                        cityIdInput.value = city.id;
+                        citySuggestionBox.style.display = 'none';
+                        if (!stateIdInput.value) {
+                            const state = stateOptions.find(s => s.id === city.state_id);
+                            if (state) {
+                                stateInput.value = state.name;
+                                stateIdInput.value = state.id;
+                            }
+                        }
+                    };
+                    citySuggestionBox.appendChild(div);
+                });
+
+                citySuggestionBox.style.display = 'block';
+            });
+
+            // ---------- Blur / outside click ----------
+            stateInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!stateIdInput.value) stateInput.value = '';
+                    stateSuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
+            cityInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    if (!cityIdInput.value) cityInput.value = '';
+                    citySuggestionBox.style.display = 'none';
+                }, 200);
+            });
+
+            // ---------- Outside click ----------
+            document.addEventListener('click', function (e) {
+                if (!certItem.contains(e.target)) {
+                    stateSuggestionBox.style.display = 'none';
+                    citySuggestionBox.style.display = 'none';
+                }
+            });
+
+            // Remove certification row
+            const removeBtn = certItem.querySelector('.removeCertifications');
+            removeBtn?.addEventListener('click', () => certItem.remove());
+        }
+
+        // ---------- Add new certification row ----------
+        function addCertificationsRow() {
+            const certIndex = document.querySelectorAll('.certifications-item').length;
+            const cer_template = `
+                <div class="certifications-item border rounded p-3 mb-3 bg-light">
+                    <div class="row g-2">
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">Certifications</label>
+                            <input type="text" name="certifications[${certIndex}][cert]" class="form-control" placeholder="Enter certification name">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">Field of Study</label>
+                            <input type="text" name="certifications[${certIndex}][field]" class="form-control" placeholder="Enter field of study">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <label class="form-label">Institution  Name</label>
+                            <input type="text" name="certifications[${certIndex}][institution]" class="form-control" placeholder="Enter institution name">
+                        </div>
+                        <div class="col-md-4 mb-2 position-relative">
+                            <label class="form-label">State</label>
+                            <input type="text" name="certifications[${certIndex}][state_name]" class="form-control state-input" placeholder="Search state...">
+                            <input type="hidden" name="certifications[${certIndex}][state]" class="state-id-input">
+                            <div class="state-suggestions suggestions-box"></div>
+                        </div>
+                        <div class="col-md-4 mb-2 position-relative">
+                            <label class="form-label">City</label>
+                            <input type="text" name="certifications[${certIndex}][city_name]" class="form-control city-input" placeholder="Search city...">
+                            <input type="hidden" name="certifications[${certIndex}][city]" class="city-id-input">
+                            <div class="city-suggestions suggestions-box"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger removeCertifications mt-2">Remove</button>
+                </div>
+            `;
+            $('#certificateContainer').append(cer_template);
+            initCertificationRow($('#certificateContainer .certifications-item').last()[0]);
+        }
+
+        // ---------- Initialize existing certification rows ----------
+        document.querySelectorAll('.certifications-item').forEach(initCertificationRow);
+
+        // Remove work history block
+        $(document).on('click', '.remove-work', function() {
+            const item = $(this).closest('.work-history-item');
+            const textarea = item.find('.work-summary')[0];
+            if (textarea && textarea.editorInstance) {
+                textarea.editorInstance.destroy().catch(console.error);
+            }
+            $(this).closest('.work-history-item').remove();
+        });
+
+        $(document).on('click', '.removeEducation', function() {
+            $(this).closest('.education-item').remove();
+        });
+
+        $(document).on('click', '.removeCertifications', function() {
+            $(this).closest('.certifications-item').remove();
+        });
     </script>
 @endsection

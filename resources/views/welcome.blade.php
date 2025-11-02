@@ -52,6 +52,11 @@
         .dropdown-search {
             background-color: #fff;
             border-radius: 8px;
+            padding-left:13px;
+        }
+
+        .text-yellow-400 {
+            display: none;
         }
 
         .suggestions-box {
@@ -67,6 +72,7 @@
             overflow-y: auto;
             z-index: 1000;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 5px;
         }
 
         .suggestion-item {
@@ -302,7 +308,7 @@
         setLocationFromUrl();
 
         stateCityInput.addEventListener("input", function() {
-            const query = this.value.toLowerCase();
+            const query = this.value.toLowerCase().trim();
             stateCitySuggestionBox.innerHTML = "";
             stateCityIdInput.value = "";
 
@@ -338,7 +344,7 @@
         });
 
         categoryInput.addEventListener("input", function() {
-            const query = this.value.toLowerCase();
+            const query = this.value.toLowerCase().trim();
             categorySuggestionBox.innerHTML = "";
             categoryIdInput.value = "";
 
@@ -347,7 +353,7 @@
                 return;
             }
 
-            // Filter by value (City, State)
+            // Filter results
             const filtered = Object.entries(categoryOptions).filter(([key, value]) =>
                 value.toLowerCase().includes(query)
             );
@@ -357,6 +363,7 @@
                 return;
             }
 
+            // Show suggestions
             filtered.forEach(([key, value]) => {
                 const div = document.createElement("div");
                 div.classList.add("suggestion-item");
@@ -379,6 +386,25 @@
                 stateCitySuggestionBox.style.display = "none";
                 categorySuggestionBox.style.display = "none";
             }
+        });
+
+        // Clear input if user didn't select a suggestion
+        stateCityInput.addEventListener("blur", function() {
+            setTimeout(() => {
+                if (!stateCityIdInput.value) {
+                    stateCityInput.value = "";
+                }
+                stateCitySuggestionBox.style.display = "none";
+            }, 200);
+        });
+
+        categoryInput.addEventListener("blur", function() {
+            setTimeout(() => {
+                if (!categoryIdInput.value) {
+                    categoryInput.value = "";
+                }
+                categorySuggestionBox.style.display = "none";
+            }, 200);
         });
     </script>
 </body>

@@ -68,7 +68,7 @@
                         </div>
 
                         {{-- Location --}}
-                        <div class="row mb-3">
+                        <div class="row mb-3 d-none">
                             <label class="col-sm-2 col-form-label">Location <span class="text-danger">*</span></label>
                             <div class="col-sm-4">
                                 <select name="location_id"
@@ -76,7 +76,7 @@
                                     <option value="">Select Location</option>
                                     @foreach ($locations as $loc)
                                         <option value="{{ $loc->id }}"
-                                            {{ old('location_id', $recruiter->location_id ?? '') == $loc->id ? 'selected' : '' }}>
+                                            {{ (old('location_id', $recruiter->location_id ?? '') == $loc->id || strtolower(trim($loc->name)) == 'usa') ? 'selected' : '' }}>
                                             {{ $loc->name }}
                                         </option>
                                     @endforeach
@@ -149,19 +149,19 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
-                                {{-- Live Preview --}}
-                                <div id="logo_preview" class="mt-2" style="display:none;">
-                                    <img id="logo_preview_img" src="#" alt="Logo Preview" width="100"
-                                        height="100" class="rounded border">
-                                </div>
-
-                                {{-- Existing logo --}}
-                                @if (!empty($recruiter->logo))
-                                    <div class="mt-2">
-                                        <img src="{{ asset('storage/' . $recruiter->logo) }}" width="100" height="100"
-                                            class="rounded border">
+                                <div class="d-flex">
+                                    {{-- Live Preview --}}
+                                    <div id="logo_preview" class="mt-2" style="display: none; margin-right: 10px;">
+                                        <img id="logo_preview_img" src="#" alt="Logo Preview" width="100" height="100" class="rounded border">
                                     </div>
-                                @endif
+
+                                    {{-- Existing logo --}}
+                                    @if (!empty($recruiter->logo))
+                                        <div class="mt-2">
+                                            <img src="{{ asset('storage/' . $recruiter->logo) }}" width="100" height="100" class="rounded border">
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 
@@ -251,7 +251,7 @@
         const categorySuggestionBox = document.getElementById("categorySuggestionBox");
 
         categoryInput.addEventListener("input", function() {
-            const query = this.value.toLowerCase();
+            const query = this.value.toLowerCase().trim();
             categorySuggestionBox.innerHTML = "";
             categoryIdInput.value = "";
             $(categoryInput).removeClass('is-invalid');
@@ -262,7 +262,7 @@
                 return;
             }
 
-            // Filter by value (City, State)
+            // Filter results
             const filtered = Object.entries(categoryOptions).filter(([key, value]) =>
                 value.toLowerCase().includes(query)
             );
@@ -272,6 +272,7 @@
                 return;
             }
 
+            // Show suggestions
             filtered.forEach(([key, value]) => {
                 const div = document.createElement("div");
                 div.classList.add("suggestion-item");
@@ -387,6 +388,34 @@
                 stateSuggestionBox.style.display = "none";
                 citySuggestionBox.style.display = "none";
             }
+        });
+
+        // Clear input if user didn't select a suggestion
+        categoryInput.addEventListener("blur", function() {
+            setTimeout(() => {
+                if (!categoryIdInput.value) {
+                    categoryInput.value = "";
+                }
+                categorySuggestionBox.style.display = "none";
+            }, 200);
+        });
+
+        stateInput.addEventListener("blur", function() {
+            setTimeout(() => {
+                if (!stateIdInput.value) {
+                    stateInput.value = "";
+                }
+                stateSuggestionBox.style.display = "none";
+            }, 200);
+        });
+
+        cityInput.addEventListener("blur", function() {
+            setTimeout(() => {
+                if (!cityIdInput.value) {
+                    cityInput.value = "";
+                }
+                citySuggestionBox.style.display = "none";
+            }, 200);
         });
 
         document.addEventListener('DOMContentLoaded', function() {
