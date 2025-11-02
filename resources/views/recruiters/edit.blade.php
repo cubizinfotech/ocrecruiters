@@ -624,7 +624,7 @@
             }
 
             // Resume
-            setupFilePreview('resume_file', 'resume_preview_container_upload', ['pdf','jpg','jpeg','png'], 3072);
+            setupFilePreview('resume_file', 'resume_preview_container_upload', ['pdf','jpg','jpeg','png'], 3072, 1, 1);
 
             // Logo
             setupFilePreview('logo_file', 'logo_preview_container_upload', ['jpg','jpeg','png','webp'], 1024, 100, 100);
