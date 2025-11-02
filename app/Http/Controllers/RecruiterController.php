@@ -16,7 +16,7 @@ class RecruiterController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Recruiter::query()->with(['category', 'location','resume']);
+        $query = Recruiter::query()->with(['category', 'location', 'resume']);
 
         // Filter by name
         if ($request->filled('name')) {
@@ -26,11 +26,6 @@ class RecruiterController extends Controller
         // Filter by category
         if ($request->filled('category')) {
             $query->where('category_id', $request->category);
-        }
-
-        // Filter by location
-        if ($request->filled('location_id')) {
-            $query->where('location_id', $request->location_id);
         }
 
         // Filter by state and city
@@ -66,18 +61,12 @@ class RecruiterController extends Controller
                 $query->orderBy('id', 'desc');
         }
 
-        
         // Get paginated recruiters
-        $perPage = $request->input('per_page', 5);
+        $perPage = $request->input('per_page', 8);
         $recruiters = $query->paginate($perPage);
-        //$recruiters = $query->paginate(6)->appends($request->query());
-
-        // $sql = $query->toSql();
-        // dd($sql);
 
         // Master dropdowns
         $categories = Category::orderBy('name')->get();
-        $locations = Location::orderBy('name')->get();
         $cities = City::with('state')->orderBy('name')->get();
 
         $categoryOptions = [];
@@ -89,7 +78,7 @@ class RecruiterController extends Controller
         foreach ($cities as $city) {
             $stateName = isset($city->state->name) ? $city->state->name : '';
             $stateId = isset($city->state->id) ? $city->state->id : '';
-            
+
             $key = $stateId ? $stateId . ',' . $city->id : $city->id;
             $value = $stateName ? $stateName . ', ' . $city->name : $city->name;
 
@@ -99,13 +88,13 @@ class RecruiterController extends Controller
         // Count total
         $total = $recruiters->total();
 
-        return view('welcome', compact('recruiters', 'categories', 'locations', 'total', 'locationOptions', 'categoryOptions'));
+        return view('welcome', compact('recruiters', 'total', 'locationOptions', 'categoryOptions'));
     }
 
     public function show($id, Request $request)
     {
 
-        $recruiter = Recruiter::with(['category', 'location','resume'])->where('user_id', $id)->firstOrFail();
+        $recruiter = Recruiter::with(['category', 'location', 'resume'])->where('user_id', $id)->firstOrFail();
 
         return view('recruiters.show', compact('recruiter'));
     }
@@ -116,10 +105,9 @@ class RecruiterController extends Controller
         $locations = Location::orderBy('name')->get();
 
         $recruiter = Recruiter::where('user_id', auth()->id())->first();
-  
         return view('recruiters.edit', compact('recruiter', 'categories', 'locations'));
     }
-    
+
 
     public function resumeEdit()
     {
@@ -141,20 +129,31 @@ class RecruiterController extends Controller
             $decodedCert = json_decode($resume->certifications, true);
             $certData = is_array($decodedCert) ? $decodedCert : [];
         }
-        
-        return view('recruiters.edit', compact('resume', 'workHistory', 'educationData', 'certData'));
+
+        $states = State::orderBy('name')->get();
+        $stateOptions = [];
+        foreach ($states as $state) {
+            $stateOptions[] = ['id' => $state->id, 'name' => $state->name];
+        }
+        $cities = City::orderBy('name')->get();
+        $citiyOptions = [];
+        foreach ($cities as $city) {
+            $citiyOptions[] = ['id' => $city->id, 'state_id' => $city?->state->id, 'name' => $city->name];
+        }
+
+        return view('recruiters.edit', compact('resume', 'workHistory', 'educationData', 'certData', 'stateOptions', 'citiyOptions'));
     }
 
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'category_id'  => 'required|exists:categories,id',
-            'location_id'  => 'required|exists:locations,id',
-            'state_id'     => 'nullable|exists:states,id',
-            'city_id'      => 'nullable|exists:cities,id',
-            'rating'       => 'nullable|integer|min:0|max:5',
-            'logo'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'location_id' => 'required|exists:locations,id',
+            'state_id' => 'nullable|exists:states,id',
+            'city_id' => 'nullable|exists:cities,id',
+            'rating' => 'nullable|integer|min:0|max:5',
+            'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $recruiter = Recruiter::where('user_id', auth()->id())->first();
@@ -192,7 +191,9 @@ class RecruiterController extends Controller
             'work.*.end_date' => 'nullable|date',
             'work.*.company_name' => 'nullable|string|max:255',
             'work.*.company_city' => 'nullable|string|max:255',
+            'work.*.company_city_name' => 'nullable|string|max:255',
             'work.*.company_state' => 'nullable|string|max:255',
+            'work.*.company_state_name' => 'nullable|string|max:255',
             'work.*.company_summary' => 'nullable|string',
             'education' => 'nullable|array',
             'education.*.degree' => 'nullable|string|max:255',
@@ -208,7 +209,7 @@ class RecruiterController extends Controller
             'certifications.*.state' => 'nullable|string|max:255',
             'skills' => 'nullable|array',
             'skills.*' => 'string|max:100',
-            'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,gif,bmp,webp|max:5120',
+            // 'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png,gif,bmp,webp|max:5120',
             'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
             'logo_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'banner_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',

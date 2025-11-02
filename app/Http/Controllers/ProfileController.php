@@ -22,21 +22,30 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $categories = Category::orderBy('name')->get();
+        $categoryOptions = [];
+        foreach ($categories as $category) {
+            $categoryOptions[$category->id] = $category->name;
+        }
         $locations = Location::orderBy('name')->get();
-        $states     = State::orderBy('name')->get();
+        $states = State::orderBy('name')->get();
+        $stateOptions = [];
+        foreach ($states as $state) {
+            $stateOptions[] = ['id' => $state->id, 'name' => $state->name];
+        }
+        $cities = City::orderBy('name')->get();
+        $citiyOptions = [];
+        foreach ($cities as $city) {
+            $citiyOptions[] = ['id' => $city->id, 'state_id' => $city?->state->id, 'name' => $city->name];
+        }
         $recruiter = Recruiter::where('user_id', auth()->id())->first();
 
-        $cities = collect();
-        if ($recruiter && $recruiter->state_id) {
-            $cities = City::where('state_id', $recruiter->state_id)->orderBy('name')->get();
-        }
         return view('profile.edit', [
             'user' => $request->user(),
-            'categories' => $categories,
+            'categoryOptions' => $categoryOptions,
             'locations' => $locations,
             'recruiter' => $recruiter,
-            'states'      => $states,
-            'cities'      => $cities,
+            'stateOptions' => $stateOptions,
+            'citiyOptions' => $citiyOptions,
         ]);
     }
 
@@ -80,8 +89,8 @@ class ProfileController extends Controller
     public function getCities(Request $request)
     {
         $cities = City::where('state_id', $request->state_id)
-                    ->orderBy('name')
-                    ->get(['id', 'name']);
+            ->orderBy('name')
+            ->get(['id', 'name']);
         return response()->json($cities);
     }
 
