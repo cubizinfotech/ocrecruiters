@@ -301,10 +301,10 @@ class RecruiterController extends Controller
                 'skills' => $skills,
                 'file_path' => $filePath,
                 'original_file_name' => $originalFileName,
-                'logo_path' => $logoPath ?? $resume->logo_path ?? null,
-                'logo_original_name' => $logoName ?? $resume->logo_original_name ?? null,
-                'banner_path' => $bannerPath ?? $resume->banner_path ?? null,
-                'banner_original_name' => $bannerName ?? $resume->banner_original_name ?? null,
+                'logo_path' => $logoPath,
+                'logo_original_name' => $logoName,
+                'banner_path' => $bannerPath,
+                'banner_original_name' => $bannerName,
             ]);
         }
 

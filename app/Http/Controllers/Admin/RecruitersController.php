@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RecruitersController extends Controller
 {
@@ -42,11 +43,14 @@ class RecruitersController extends Controller
                 'password' => 'required|min:8|confirmed',
             ]);
 
-            User::create([
+            $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => bcrypt($validated['password']),
             ]);
+
+            // Fire registered event to send email verification
+            event(new Registered($user));
 
             return redirect()->route('admin.recruiters.index')
                 ->with('success', 'Recruiter created successfully.');

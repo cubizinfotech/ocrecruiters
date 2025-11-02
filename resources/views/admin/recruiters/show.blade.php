@@ -9,7 +9,7 @@
             <p class="text-muted">View detailed information about the recruiter</p>
         </div>
         <div class="btn-group">
-            <a href="{{ route('recruiters.index') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('admin.recruiters.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left me-1"></i> Back to Recruiters
             </a>
         </div>

@@ -45,6 +45,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            // Delete related recruiter (if exists)
+            $user->recruiter()->delete();
+
+            // Delete related resumes (if multiple)
+            $user->resume()->delete();
+        });
+    }
+
     public function customers()
     {
         return $this->hasMany(Customer::class)->withTrashed();
@@ -58,6 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function payments()
     {
         return $this->hasMany(Payment::class)->withTrashed();
+    }
+
+    public function recruiter()
+    {
+        return $this->hasOne(Recruiter::class);
     }
 
     public function resume()

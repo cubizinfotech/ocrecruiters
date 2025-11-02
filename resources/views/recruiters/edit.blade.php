@@ -155,7 +155,7 @@
                                             <div class="card border-0 shadow-sm p-4">
                                                 <div id="workHistoryContainer">
                                                     @php
-                                                        $workHistory = is_array($workHistory) ? $workHistory : json_decode($workHistory, true);
+                                                        $workHistory = (isset($workHistory) && is_array($workHistory)) ? $workHistory : json_decode($workHistory, true);
                                                         $workHistory = $workHistory ?: [];
                                                     @endphp
 
