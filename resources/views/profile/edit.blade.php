@@ -165,6 +165,47 @@
                             </div>
                         </div>
 
+                        {{-- Color Scheme --}}
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Color Scheme</label>
+                            <div class="col-sm-4">
+                                <input type="color" name="color" id="color"
+                                    class="form-control form-control-color @error('color') is-invalid @enderror"
+                                    value="{{ old('color', $recruiter->color ?? '#3490dc') }}">
+                                @error('color')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">Choose your preferred color scheme</small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Slogan</label>
+                            <div class="col-sm-4">
+                                <input type="text" name="slogan" id="slogan"
+                                    class="form-control @error('slogan') is-invalid @enderror"
+                                    value="{{ old('slogan', $recruiter->slogan ?? '') }}"
+                                    placeholder="Enter your slogan...">
+                                @error('slogan')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">Add a short catchy line about your brand</small>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label">Info</label>
+                            <div class="col-sm-10">
+                                <textarea name="info" id="info" rows="3"
+                                    class="form-control @error('info') is-invalid @enderror"
+                                    placeholder="Enter company information or description...">{{ old('info', $recruiter->info ?? '') }}</textarea>
+                                @error('info')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">Provide additional details about your organization</small>
+                            </div>
+                        </div>
+
                         <div class="text-end mt-4">
                             <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
                         </div>

@@ -86,10 +86,17 @@
                                             aria-controls="v-pills-skill" aria-selected="false">
                                             Skills
                                         </button>
+                                        {{--
                                         <button class="nav-link" id="v-pills-files-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-files" type="button" role="tab"
                                             aria-controls="v-pills-files" aria-selected="false">
                                             Upload files
+                                        </button>
+                                        --}}
+                                        <button class="nav-link" id="v-pills-files-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-files" type="button" role="tab"
+                                            aria-controls="v-pills-files" aria-selected="false">
+                                            Linkedin
                                         </button>
                                     </div>
                                 </div>
@@ -124,7 +131,7 @@
                                                     </div>
                                                     <label class="col-sm-2 col-form-label">Phone <span class="text-danger">*</span></label>
                                                     <div class="col-sm-4">
-                                                        <input type="number" name="phone" class="form-control"
+                                                        <input type="text" name="phone" id="phoneInput" class="form-control"
                                                             required value="{{ old('phone', $resume->phone ?? '') }}"
                                                             placeholder="Enter phone...">
                                                     </div>
@@ -354,7 +361,8 @@
 
                                         <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
                                             <div class="row g-4">
-                                                {{-- Resume --}}
+
+                                                {{--
                                                 <div class="col-md-6">
                                                     <label for="resume_file" class="form-label fw-semibold">Upload Resume</label>
                                                     <input type="file" name="resume_file" id="resume_file"
@@ -384,7 +392,6 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- Logo --}}
                                                 <div class="col-md-6">
                                                     <label for="logo_file" class="form-label fw-semibold">Upload Logo (min: 100x100)</label>
                                                     <input type="file" name="logo_file" id="logo_file" class="form-control" accept=".jpg,.jpeg,.png,.webp">
@@ -393,6 +400,7 @@
                                                     @enderror
                                                     <div id="logo_preview_container_upload"></div>
                                                 </div>
+
                                                 <div class="col-md-6">
                                                     <div id="logo_preview_container" class="p-2 border rounded" style="min-height:80px;">
                                                         @if (!empty($resume->logo_path))
@@ -412,7 +420,6 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- Banner --}}
                                                 <div class="col-md-6">
                                                     <label for="banner_file" class="form-label fw-semibold">Upload Banner (min: 1200x400)</label>
                                                     <input type="file" name="banner_file" id="banner_file" class="form-control" accept=".jpg,.jpeg,.png,.webp">
@@ -438,6 +445,17 @@
                                                             <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
                                                         @endif
                                                     </div>
+                                                </div>
+                                                --}}
+
+                                                <div class="col-md-6">
+                                                    <label for="linkedin" class="form-label fw-semibold">LinkedIn Profile</label>
+                                                    <input type="url" name="linkedin" id="linkedin" class="form-control @error('linkedin') is-invalid @enderror"
+                                                        value="{{ old('linkedin', $resume->linkedin ?? '') }}"
+                                                        placeholder="https://www.linkedin.com/in/your-profile">
+                                                    @error('linkedin')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -1115,6 +1133,20 @@
 
         $(document).on('click', '.removeCertifications', function() {
             $(this).closest('.certifications-item').remove();
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phoneInput');
+
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, ''); // only digits
+                value = value.substring(0, 10); // limit to 10 digits
+                if (value.length > 3 && value.length <= 6) {
+                    value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+                } else if (value.length > 6) {
+                    value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+                }
+                e.target.value = value;
+            });
         });
     </script>
 @endsection

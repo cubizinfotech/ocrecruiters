@@ -28,7 +28,7 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 
 Route::get('/recruiters', [RecruiterController::class, 'index'])->name('recruiters.index');
 
-Route::get('/recruiters/{id}', [RecruiterController::class, 'show'])->name('recruiters.show');
+Route::get('/recruiters/{id}/{name}', [RecruiterController::class, 'show'])->name('recruiters.show');
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register');
@@ -63,11 +63,11 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::get('/recruiter_edit', [RecruiterController::class, 'edit'])->name('recruiters.edit');
     Route::put('/recruiter_update', [RecruiterController::class, 'update'])->name('recruiters.update');
-    
+
     Route::get('/resume_edit', [RecruiterController::class, 'resumeEdit'])->name('resume.edit');
     Route::post('/recruiters_store', [RecruiterController::class, 'storeOrUpdate'])->name('resume.save');
- 
+
 });

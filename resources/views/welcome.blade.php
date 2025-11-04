@@ -23,6 +23,11 @@
             justify-content: center;
         }
 
+        .duration-300 {
+            transition-duration: .3s;
+            display: none;
+        }
+
         .dropdown-search-wrapper {
             position: relative;
             display: flex;
@@ -228,7 +233,7 @@
                             <!-- Name -->
                             <h2 class="text-lg font-semibold text-gray-800">
                                 @if ($recruiter->resume)
-                                    <a href="{{ route('recruiters.show', $recruiter->user_id) }}">
+                                    <a href="{{ route('recruiters.show', [$recruiter->user_id, $recruiter->name]) }}">
                                         {{ $recruiter->name }}
                                     </a>
                                 @else
