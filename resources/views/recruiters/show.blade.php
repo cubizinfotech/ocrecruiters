@@ -59,7 +59,7 @@
             </div> --}}
 
             <div class="relative w-full h-64 md:h-80 rounded-b-lg overflow-hidden">
-                <img src="{{ $recruiter->resume->banner_path
+                <img src="{{ $recruiter->resume
                             ? asset('storage/' . $recruiter->resume->banner_path)
                             : asset('logos/sample11.jpg') }}"
                     alt="Banner"
@@ -72,11 +72,7 @@
 
                         <!-- Left: Logo -->
                         <div class="flex items-center gap-4">
-                            <img src="{{ $recruiter->resume?->logo_path
-                                    ? asset('storage/' . $recruiter->resume->logo_path)
-                                    : asset('logos/sample1.jpg') }}"
-                                class="w-20 h-20 rounded-full object-cover shadow"
-                                alt="Logo">
+                            <img src="{{ asset('storage/' . $recruiter->logo) }}" alt="Recruiter Logo" width="120" height="120">
                         </div>
 
                         <!-- Center: Slogan -->
@@ -89,14 +85,16 @@
                         @endif
 
                         <!-- Right: Buttons -->
-                        <div class="flex items-center gap-3" x-data="{ fileOpen: false, aboutOpen: false, showContact: false }">
+                        <div style="" class="flex items-center gap-3" x-data="{ fileOpen: false, aboutOpen: false, showContact: false }">
 
-                            @if ($recruiter->resume->file_path)
+                            @if ($recruiter->resume)
                                 <div x-data="{ fileOpen: false }" x-cloak class="relative">
+                                   <!--
                                     <button @click="fileOpen = true"
                                         class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100">
                                         View File
                                     </button>
+                                    -->
 
                                     <!-- File Modal -->
                                     <div x-show="fileOpen"
@@ -132,10 +130,17 @@
                                 </div>
                             @endif
 
+                            @if ($recruiter->resume)
+                                <a class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2" href="{{ $recruiter->resume->linkedin }}" target="_blank">
+                                    View LinkedIn
+                                </a>
+                            @endif
+                            <!--
                             <button @click="aboutOpen = true"
                                 class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-100">
                                 About Us
                             </button>
+                            -->
 
                             <!-- About Us Modal -->
                             <div x-show="aboutOpen"
@@ -152,7 +157,7 @@
                                     </h2>
 
                                     <div class="text-gray-700 text-sm leading-relaxed prose max-w-none">
-                                        {!! $recruiter->resume->summary
+                                        {!! $recruiter->resume
                                             ? $recruiter->resume->summary
                                             : '<p>No summary information available yet.</p>' !!}
                                     </div>
@@ -185,7 +190,7 @@
 
                 <!-- Left: About Recruiter -->
                 <div class="lg:col-span-2 space-y-6">
-                      <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition duration-300">
+                      <div class="bg-white xshadow-md rounded-2xl p-6 border border-gray-100 hover:xshadow-lg transition duration-300">
                             <div class="flex items-center justify-between mb-3">
                                 <div>
                                     <h1 class="text-2xl font-bold text-gray-900">
@@ -208,16 +213,16 @@
                                 </div>
 
                                 {{-- Optional recruiter logo --}}
-                                @if(!empty($recruiter->logo))
+                               <!-- @if(!empty($recruiter->logo))
 
                                     <div class="w-16 h-16 flex items-center justify-center bg-gray-50 border border-gray-200 rounded-full overflow-hidden shadow-sm">
                                         <img src="{{ asset('storage/'.$recruiter->logo) }}" alt="Logo"
                                             class="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105">
                                     </div>
-                                @endif
+                                @endif-->
                             </div>
 
-                            <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed mt-3">
+                            <div style="display:none" class="prose prose-sm max-w-none text-gray-700 leading-relaxed mt-3">
                                 @if(!empty($recruiter->resume->summary))
                                     {!! $recruiter->resume->summary !!}
                                 @else
@@ -225,10 +230,10 @@
                                 @endif
                             </div>
                         </div>
-                    <div class="bg-white shadow-sm rounded-xl p-6">
+                    <div style="" class="bg-white shadow-sm rounded-xl p-6">
                         <h3 class="text-lg font-semibold mb-2 text-gray-800">Professional Summary</h3>
                         <p class="text-gray-700 leading-relaxed text-sm md:text-base">
-                            {!! $recruiter->resume->summary
+                            {!! $recruiter->resume
                                         ? $recruiter->resume->summary
                                         : '<p>No summary information available yet.</p>' !!}
                         </p>
