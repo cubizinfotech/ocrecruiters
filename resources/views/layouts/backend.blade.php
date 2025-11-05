@@ -70,7 +70,7 @@
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
-        @include('layouts.backend.sidebar', $recruiter)
+        @include('layouts.backend.sidebar')
 
         <!-- Main Content -->
         <div class="main-content flex-grow-1" id="main-content">
