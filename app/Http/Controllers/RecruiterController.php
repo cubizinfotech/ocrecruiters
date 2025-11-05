@@ -181,7 +181,7 @@ class RecruiterController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:resumes,email,' . (Resume::where('user_id', auth()->id())->first()->id ?? 'null'),
             'phone' => 'required|digits_between:8,15',
             'address' => 'required|string',
             'summary' => 'nullable|string',
