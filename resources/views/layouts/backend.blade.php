@@ -62,10 +62,15 @@
     @yield('styles')
 </head>
 
+@php
+    use App\Models\Recruiter;
+    $recruiter = Recruiter::where('user_id', auth()->id())->first();
+@endphp
+
 <body>
     <div class="d-flex">
         <!-- Sidebar -->
-        @include('layouts.backend.sidebar')
+        @include('layouts.backend.sidebar', $recruiter)
 
         <!-- Main Content -->
         <div class="main-content flex-grow-1" id="main-content">

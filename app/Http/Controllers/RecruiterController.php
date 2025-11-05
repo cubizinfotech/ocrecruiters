@@ -91,7 +91,7 @@ class RecruiterController extends Controller
         return view('welcome', compact('recruiters', 'total', 'locationOptions', 'categoryOptions'));
     }
 
-    public function show($id, Request $request)
+    public function show($id, $name, Request $request)
     {
 
         $recruiter = Recruiter::with(['category', 'location', 'resume'])->where('user_id', $id)->firstOrFail();
@@ -154,6 +154,9 @@ class RecruiterController extends Controller
             'city_id' => 'nullable|exists:cities,id',
             'rating' => 'nullable|integer|min:0|max:5',
             'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'color' => 'nullable|string|max:20',
+            'slogan' => 'nullable|string|max:255',
+            'info' => 'nullable|string',
         ]);
 
         $recruiter = Recruiter::where('user_id', auth()->id())->first();
@@ -182,7 +185,7 @@ class RecruiterController extends Controller
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'email' => 'required|email|unique:resumes,email,' . (Resume::where('user_id', auth()->id())->first()->id ?? 'null'),
-            'phone' => 'required|digits_between:8,15',
+            'phone' => 'required|regex:/^[0-9\-]+$/|min:10|max:15',
             'address' => 'required|string',
             'summary' => 'nullable|string',
             'work' => 'array',
@@ -216,6 +219,7 @@ class RecruiterController extends Controller
             'resume_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
             'logo_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'banner_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'linkedin' => 'nullable|url|max:255',
         ]);
 
         $experience = json_encode(array_values($validated['work'] ?? []));
@@ -279,6 +283,7 @@ class RecruiterController extends Controller
                 'education' => $education,
                 'certifications' => $certifications,
                 'skills' => $skills,
+                'linkedin' => $validated['linkedin'],
                 'file_path' => $filePath ?? $resume->file_path,
                 'original_file_name' => $originalFileName ?? $resume->original_file_name,
                 'logo_path' => $logoPath ?? $resume->logo_path ?? null,
@@ -299,6 +304,7 @@ class RecruiterController extends Controller
                 'education' => $education,
                 'certifications' => $certifications,
                 'skills' => $skills,
+                'linkedin' => $validated['linkedin'],
                 'file_path' => $filePath,
                 'original_file_name' => $originalFileName,
                 'logo_path' => $logoPath,

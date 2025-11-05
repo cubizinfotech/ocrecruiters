@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Recruiter extends Model
 {
     use HasFactory;
-    
+
     protected $appends = ['state_name', 'city_name'];
-    
+
     protected $fillable = [
-        'user_id', 'name', 'category_id', 'location_id', 'state_id', 'city_id', 'logo', 'rating', 'jobs_open'
+        'user_id', 'name', 'category_id', 'location_id', 'state_id', 'city_id', 'logo', 'rating', 'jobs_open','color','slogan','info'
     ];
 
 

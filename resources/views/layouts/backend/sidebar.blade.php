@@ -37,10 +37,11 @@
         </nav>
 
         <div class="m-4 d-flex justify-content-center">
-            <a href="{{ route('recruiters.show', auth()->id()) }}" target="_blank">
+            @if ($recruiter)
+            <a href="{{ route('recruiters.show', [auth()->id(), $recruiter->name]) }}" target="_blank">
                 View Recruiter
             </a>
-
+            @endif
         </div>
         <!-- Sidebar Footer -->
         <div class="sidebar-footer mt-auto">
