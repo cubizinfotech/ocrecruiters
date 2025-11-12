@@ -158,7 +158,8 @@ class RecruiterController extends Controller
             'slogan' => 'nullable|string|max:255',
             'info' => 'nullable|string',
         ]);
-
+        $validated['slogan'] = $validated['slogan'] ?? null;
+        $validated['info'] = $validated['info'] ?? null;
         $recruiter = Recruiter::where('user_id', auth()->id())->first();
 
         // Handle logo upload
@@ -184,7 +185,7 @@ class RecruiterController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
-            'email' => 'required|email|unique:resumes,email,' . (Resume::where('user_id', auth()->id())->first()->id ?? 'null'),
+            'email' => 'required|email',
             'phone' => 'required|regex:/^[0-9\-]+$/|min:10|max:15',
             'address' => 'required|string',
             'summary' => 'nullable|string',
@@ -220,6 +221,7 @@ class RecruiterController extends Controller
             'logo_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:1024',
             'banner_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'linkedin' => 'nullable|url|max:255',
+            'github' => 'nullable|url|max:255',
         ]);
 
         $experience = json_encode(array_values($validated['work'] ?? []));
@@ -284,6 +286,7 @@ class RecruiterController extends Controller
                 'certifications' => $certifications,
                 'skills' => $skills,
                 'linkedin' => $validated['linkedin'],
+                'github' => $validated['github'],
                 'file_path' => $filePath ?? $resume->file_path,
                 'original_file_name' => $originalFileName ?? $resume->original_file_name,
                 'logo_path' => $logoPath ?? $resume->logo_path ?? null,
@@ -305,6 +308,7 @@ class RecruiterController extends Controller
                 'certifications' => $certifications,
                 'skills' => $skills,
                 'linkedin' => $validated['linkedin'],
+                'github' => $validated['github'],
                 'file_path' => $filePath,
                 'original_file_name' => $originalFileName,
                 'logo_path' => $logoPath,

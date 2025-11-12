@@ -14,7 +14,15 @@ class SocialAuthController extends Controller
     // Redirect to provider
     public function redirect($provider)
     {
-        return Socialite::driver($provider)->redirect();
+        
+        if($provider == 'linkedin-openid'){
+          return Socialite::driver('linkedin-openid')
+            ->scopes(['openid', 'profile', 'email'])
+            ->redirect();
+        }else{
+            return Socialite::driver($provider)->redirect();
+        }
+        
     }
 
     // Handle callback
@@ -26,13 +34,13 @@ class SocialAuthController extends Controller
             return redirect('/login')->withErrors('Something went wrong: ' . $e->getMessage());
         }
 
-        // 🔹 Check if user already exists
+        // Check if user already exists
         $user = User::where('provider_id', $socialUser->getId())
             ->where('provider', $provider)
             ->first();
 
         if (!$user) {
-            // 🔹 If not, check by email (in case they registered normally before)
+            // If not, check by email (in case they registered normally before)
             $user = User::where('email', $socialUser->getEmail())->first();
 
             if (!$user) {
@@ -41,7 +49,8 @@ class SocialAuthController extends Controller
                     'email' => $socialUser->getEmail(),
                     'provider' => $provider,
                     'provider_id' => $socialUser->getId(),
-                    'password' => bcrypt(Str::random(12)), // random placeholder
+                    'password' => bcrypt(Str::random(12)),
+                    'email_verified_at' => date('Y-m-d H:i:s')
                 ]);
             } else {
                 $user->update([

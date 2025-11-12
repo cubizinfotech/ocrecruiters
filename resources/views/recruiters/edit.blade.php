@@ -86,17 +86,15 @@
                                             aria-controls="v-pills-skill" aria-selected="false">
                                             Skills
                                         </button>
-                                        {{--
+                                        <button class="nav-link" id="v-pills-files-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-social-media" type="button" role="tab"
+                                            aria-controls="v-pills-social-media" aria-selected="false">
+                                            Social Media
+                                        </button>
                                         <button class="nav-link" id="v-pills-files-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-files" type="button" role="tab"
                                             aria-controls="v-pills-files" aria-selected="false">
                                             Upload files
-                                        </button>
-                                        --}}
-                                        <button class="nav-link" id="v-pills-files-tab" data-bs-toggle="pill"
-                                            data-bs-target="#v-pills-files" type="button" role="tab"
-                                            aria-controls="v-pills-files" aria-selected="false">
-                                            Linkedin
                                         </button>
                                     </div>
                                 </div>
@@ -359,10 +357,32 @@
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
+                                        <div class="tab-pane fade" id="v-pills-social-media" role="tabpanel" aria-labelledby="v-pills-social-media-tab">
                                             <div class="row g-4">
+                                                <div class="col-md-6">
+                                                    <label for="linkedin" class="form-label fw-semibold">LinkedIn Profile</label>
+                                                    <input type="url" name="linkedin" id="linkedin" class="form-control @error('linkedin') is-invalid @enderror"
+                                                        value="{{ old('linkedin', $resume->linkedin ?? '') }}"
+                                                        placeholder="https://www.linkedin.com/in/your-profile">
+                                                    @error('linkedin')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                                {{--
+                                            <div class="col-md-6">
+                                                <label for="github" class="form-label fw-semibold">GitHub Profile</label>
+                                                <input type="url" name="github" id="github" class="form-control @error('github') is-invalid @enderror"
+                                                    value="{{ old('github', $resume->github ?? '') }}"
+                                                    placeholder="https://github.com/your-username">
+                                                @error('github')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                         <div class="tab-pane fade" id="v-pills-files" role="tabpanel" aria-labelledby="v-pills-files-tab">
+                                            <div class="row g-4">
                                                 <div class="col-md-6">
                                                     <label for="resume_file" class="form-label fw-semibold">Upload Resume</label>
                                                     <input type="file" name="resume_file" id="resume_file"
@@ -374,8 +394,8 @@
                                                     <div id="resume_preview_container_upload"></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div id="resume_preview_container" class="p-2 border rounded" style="min-height:80px;">
-                                                        @if (!empty($resume->file_path))
+                                                    @if (!empty($resume->file_path))
+                                                        <div id="resume_preview_container" class="p-2 border rounded" style="min-height:80px;">
                                                             @php
                                                                 $ext = strtolower(pathinfo($resume->file_path, PATHINFO_EXTENSION));
                                                                 $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
@@ -388,8 +408,8 @@
                                                             <span>{{ $fileName }}</span><br>
                                                             <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
                                                             <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
-                                                        @endif
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
 
                                                 <div class="col-md-6">
@@ -402,8 +422,8 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <div id="logo_preview_container" class="p-2 border rounded" style="min-height:80px;">
-                                                        @if (!empty($resume->logo_path))
+                                                    @if (!empty($resume->logo_path))
+                                                        <div id="logo_preview_container" class="p-2 border rounded" style="min-height:80px;">
                                                             @php
                                                                 $ext = strtolower(pathinfo($resume->logo_path, PATHINFO_EXTENSION));
                                                                 $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
@@ -416,8 +436,8 @@
                                                             <span>{{ $fileName }}</span><br>
                                                             <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
                                                             <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
-                                                        @endif
-                                                    </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
 
                                                 <div class="col-md-6">
@@ -429,8 +449,8 @@
                                                     <div id="banner_preview_container_upload"></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div id="banner_preview_container" class="p-2 border rounded" style="min-height:80px;">
-                                                        @if (!empty($resume->banner_path))
+                                                    @if (!empty($resume->banner_path))
+                                                        <div id="banner_preview_container" class="p-2 border rounded" style="min-height:80px;">
                                                             @php
                                                                 $ext = strtolower(pathinfo($resume->banner_path, PATHINFO_EXTENSION));
                                                                 $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
@@ -443,19 +463,8 @@
                                                             <span>{{ $fileName }}</span><br>
                                                             <a href="{{ $fileUrl }}" target="_blank" class="btn btn-sm btn-outline-primary mt-1">Open</a>
                                                             <a href="{{ $fileUrl }}" download class="btn btn-sm btn-outline-success mt-1">Download</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                --}}
-
-                                                <div class="col-md-6">
-                                                    <label for="linkedin" class="form-label fw-semibold">LinkedIn Profile</label>
-                                                    <input type="url" name="linkedin" id="linkedin" class="form-control @error('linkedin') is-invalid @enderror"
-                                                        value="{{ old('linkedin', $resume->linkedin ?? '') }}"
-                                                        placeholder="https://www.linkedin.com/in/your-profile">
-                                                    @error('linkedin')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

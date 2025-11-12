@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SocialAuthController extends Controller
 {
@@ -18,7 +19,7 @@ class SocialAuthController extends Controller
     // Handle callback
     public function callback($provider)
     {
-        $socialUser = Socialite::driver($provider)->stateless()->user();
+        $socialUser = Socialite::driver($provider)->user();
 
         // Check if user exists
         $user = User::where('email', $socialUser->getEmail())->first();
@@ -31,6 +32,7 @@ class SocialAuthController extends Controller
                 'password' => bcrypt(uniqid()), // Random password
             ]);
         }
+       
 
         // Log in the user
         Auth::login($user, true);

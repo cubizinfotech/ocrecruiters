@@ -50,7 +50,7 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
 
-        <div class="bg-gray-50 min-h-screen">
+        <div class="bg-gray-50 min-h-screen" style="background-color: {{ $recruiter->color ?? '#ffffff' }};">
 
             <!-- Banner -->
             {{-- <div class="relative w-full h-64 md:h-80 rounded-b-lg overflow-hidden">

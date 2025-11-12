@@ -21,11 +21,11 @@ class PasswordController extends Controller
         // ]);
 
         $request->validate([
-            'current_password' => ['required', 'current_password'],
+            //'current_password' => ['required', 'current_password'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
-            'current_password.required' => 'Please enter your current password.',
-            'current_password.current_password' => 'Your current password is incorrect.',
+            //'current_password.required' => 'Please enter your current password.',
+            //'current_password.current_password' => 'Your current password is incorrect.',
             'password.required' => 'Please enter a new password.',
             'password.confirmed' => 'Passwords do not match.',
         ]);

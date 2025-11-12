@@ -4,7 +4,7 @@
             class="btn btn-google flex items-center justify-center">
             <img src="{{ asset('logos/google.png') }}" alt="Google" class="w-10 h-10 rounded-full object-cover shadow"></a>
 
-       <a href="{{ route('social.redirect', 'linkedin') }}"
+       <a href="{{ route('social.redirect', 'linkedin-openid') }}"
                class="btn btn-linkedin flex items-center justify-center">
                <img src="{{ asset('logos/linkedin.png') }}"
                                            alt="LinkedIn"

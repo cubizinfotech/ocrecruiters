@@ -171,7 +171,7 @@
                             <div class="col-sm-4">
                                 <input type="color" name="color" id="color"
                                     class="form-control form-control-color @error('color') is-invalid @enderror"
-                                    value="{{ old('color', $recruiter->color ?? '#3490dc') }}">
+                                    value="{{ old('color', $recruiter->color ?? '#ffffff') }}">
                                 @error('color')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -226,22 +226,7 @@
                         class="bg-white shadow-md rounded-2xl p-8 max-w-3xl mx-auto mt-10">
                         @csrf
                         @method('PUT')
-
-                        <div class="row mb-3">
-                            <label for="current_password" class="col-sm-2 col-form-label">
-                                Current Password <span class="text-danger">*</span>
-                            </label>
-                            <div class="col-sm-3">
-                                <input type="password" id="current_password" name="current_password"
-                                    class="form-control @error('current_password') is-invalid @enderror" placeholder="Enter current password...">
-                                {{--
-                                @error('current_password')
-                                    <div class="invalid-feedback d-block">{{ $message }}</div>
-                                @enderror
-                                --}}
-                            </div>
-                        </div>
-
+                        
                         <div class="row mb-3">
                             <label for="password" class="col-sm-2 col-form-label">
                                 New Password <span class="text-danger">*</span>
@@ -508,10 +493,6 @@
         $(function() {
             $('#passwordForm').validate({
                 rules: {
-                    current_password: {
-                        required: true,
-                        minlength: 6
-                    },
                     password: {
                         required: true,
                         minlength: 8
@@ -522,10 +503,6 @@
                     }
                 },
                 messages: {
-                    current_password: {
-                        required: "Please enter your current password",
-                        minlength: "Password must be at least 6 characters long"
-                    },
                     password: {
                         required: "Please enter a new password",
                         minlength: "New password must be at least 8 characters long"

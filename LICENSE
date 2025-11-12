@@ -1,0 +1,13 @@
+
+---
+
+## ✅ Summary of All Commands
+
+```bash
+cd C:\wamp64\www\nutritrade
+git init
+git remote add origin https://github.com/cubizinfotech/se-betel-nut.git
+git add .
+git commit -m "Initial commit - setup Laravel 10 project with roles, permissions, and migrations"
+git branch -M main
+git push -u origin main
